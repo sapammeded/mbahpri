@@ -26,9 +26,9 @@ PURPOSE : Sistem variabel global warna, tipografi, efek visual untuk seluruh pla
     /* DARK MODE — CYBER QUANTUM PALETTE */
     --bg-void:       #010108;
     --bg-base:       #03040e;
-    --bg-surface:    #060a1c;
+    --bg-surface:    rgba(6, 10, 28, 0.85);
     --bg-panel:      #080d1f;
-    --bg-elevated:   #0c142d;
+    --bg-elevated:   rgba(12, 20, 45, 0.9);
     --bg-active:     rgba(0, 220, 255, 0.08);
     --bg-hover:      rgba(0, 220, 255, 0.05);
 
@@ -56,9 +56,9 @@ PURPOSE : Sistem variabel global warna, tipografi, efek visual untuk seluruh pla
     --font-mono:     'JetBrains Mono', monospace;
     --font-body:     'Inter', -apple-system, sans-serif;
 
-    --blur-sm:       blur(0px);
-    --blur-md:       blur(0px);
-    --blur-lg:       blur(0px);
+    --blur-sm:       blur(8px);
+    --blur-md:       blur(16px);
+    --blur-lg:       blur(28px);
     --ease-spring:   cubic-bezier(0.16, 1, 0.3, 1);
     --ease-smooth:   cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -181,6 +181,8 @@ PURPOSE : Panel navigasi kiri premium glassmorphism
 .sidebarPanel {
     width: var(--sidebar-w);
     background: var(--bg-surface);
+    backdrop-filter: var(--blur-lg);
+    -webkit-backdrop-filter: var(--blur-lg);
     border-right: 1px solid var(--border-glow);
     display: flex;
     flex-direction: column;
@@ -279,9 +281,14 @@ PURPOSE : Panel navigasi kiri premium glassmorphism
 .drawerBackdropOverlay {
     display: none;
     position: fixed;
-    inset: 0;
+    /* Mulai dari kanan sidebar, bukan dari kiri layar */
+    top: 0;
+    left: 272px;
+    right: 0;
+    bottom: 0;
     background: rgba(0, 0, 0, 0.6);
     z-index: 45;
+    backdrop-filter: blur(4px);
 }
 
 .sidebarNavScroll {
@@ -331,6 +338,10 @@ PURPOSE : Panel navigasi kiri premium glassmorphism
     transition: all 0.15s var(--ease-smooth);
     position: relative;
     overflow: hidden;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(0, 220, 255, 0.15);
+    user-select: none;
+    -webkit-user-select: none;
 }
 .navItem .navItemLabel {
     display: flex;
@@ -412,6 +423,8 @@ PURPOSE : Header bar atas dengan judul, tema toggle, status sistem
 .topPlatformBar {
     height: var(--topbar-h);
     background: var(--bg-surface);
+    backdrop-filter: var(--blur-md);
+    -webkit-backdrop-filter: var(--blur-md);
     border-bottom: 1px solid var(--border-glow);
     display: flex;
     align-items: center;
@@ -557,6 +570,8 @@ PURPOSE : Halaman selamat datang premium dengan efek visual berlapis
     align-items: center;
     justify-content: center;
     background: var(--bg-surface);
+    backdrop-filter: var(--blur-lg);
+    -webkit-backdrop-filter: var(--blur-lg);
     border: 1px solid var(--border-glow);
     border-radius: var(--radius-xl);
     height: calc(100vh - 220px);
@@ -785,6 +800,7 @@ body:not([data-theme="light"]) .welcomeHeadlineText {
 }
 .configActionButton {
     background: rgba(1, 3, 10, 0.7);
+    backdrop-filter: blur(8px);
     border: 1px solid var(--border-mid);
     color: var(--text-primary);
     padding: 7px 16px;
@@ -816,6 +832,8 @@ PURPOSE : Modal overlay terproteksi untuk auth gateway dan konfigurasi
     position: fixed;
     inset: 0;
     background: rgba(1, 2, 8, 0.88);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
     z-index: 1000;
     display: none;
     align-items: center;
@@ -930,6 +948,8 @@ PURPOSE : Panel file manager terenkripsi dengan vault tree view
 
 .fmSideTreePanel {
     background: var(--bg-surface);
+    backdrop-filter: var(--blur-md);
+    -webkit-backdrop-filter: var(--blur-md);
     border: 1px solid var(--border-glow);
     border-radius: var(--radius-lg);
     padding: 16px;
@@ -970,6 +990,8 @@ PURPOSE : Panel file manager terenkripsi dengan vault tree view
 
 .fmMainExplorer {
     background: var(--bg-surface);
+    backdrop-filter: var(--blur-md);
+    -webkit-backdrop-filter: var(--blur-md);
     border: 1px solid var(--border-glow);
     border-radius: var(--radius-lg);
     display: flex;
@@ -1029,6 +1051,8 @@ PURPOSE : Terminal stream log audit real-time di bawah dashboard
 ================================================== */
 .auditStreamCard {
     background: var(--bg-surface);
+    backdrop-filter: var(--blur-md);
+    -webkit-backdrop-filter: var(--blur-md);
     border: 1px solid var(--border-glow);
     border-radius: var(--radius-lg);
     margin-top: 16px;
@@ -1259,6 +1283,7 @@ PURPOSE : Notifikasi popup floating dari kanan bawah
 }
 .toastNotificationNode {
     background: var(--bg-surface);
+    backdrop-filter: var(--blur-lg);
     border: 1px solid var(--border-glow);
     border-left: 3px solid var(--accent);
     padding: 10px 16px;
@@ -1289,6 +1314,8 @@ PURPOSE : Bottom nav bar untuk layar mobile
     display: none;
     height: 58px;
     background: var(--bg-surface);
+    backdrop-filter: var(--blur-lg);
+    -webkit-backdrop-filter: var(--blur-lg);
     border-top: 1px solid var(--border-glow);
     justify-content: space-around;
     align-items: center;
@@ -1336,8 +1363,17 @@ PURPOSE : Penyesuaian layout untuk layar kecil / mobile
         transform: translateX(-100%);
         z-index: 200;
         box-shadow: 4px 0 40px rgba(0,0,0,0.7);
+        overflow-y: auto;
+        overflow-x: hidden;
+        pointer-events: none;
     }
-    .sidebarPanel.drawer-open { transform: translateX(0); }
+    .sidebarPanel.drawer-open {
+        transform: translateX(0);
+        pointer-events: auto;
+    }
+    .appShellWrapper.drawer-is-open {
+        overflow: visible;
+    }
     .closeSidebarButton { display: flex !important; align-items: center; justify-content: center; }
     .mobileBottomNavBar { display: flex; }
     .contentViewportArea { padding: 14px; padding-bottom: 76px; }
@@ -1478,7 +1514,7 @@ PURPOSE : Wrapper utama grid sidebar + area kerja
                 <button class="topBarHamburger" onclick="triggerMobileAppSelectorDrawer(true)">☰</button>
                 <div class="viewTitleBlock">
                     <div class="viewTitleAccent"></div>
-                    <h2 id="platformHeaderTitle">Home Welcome Portal</h2>
+                    <h2 id="platformHeaderTitle"> Welcome in Portal Cyber Security SAPAM MEDED</h2>
                 </div>
             </div>
             <div class="topBarRightCluster">
@@ -1517,8 +1553,9 @@ PURPOSE : Wrapper utama grid sidebar + area kerja
                              alt="Operations Core Logo">
                     </div>
 
-                    <h3 class="welcomeHeadlineText">Selamat Datang di Command Portal SOC</h3>
-                    <p class="welcomeSublineText">Unified Security Operations System. Seluruh transmisi enkripsi data log lapangan dan integrasi sub-aplikasi dipantau penuh secara terpusat dari modul kendali Danru.</p>
+                    <h3 class="welcomeHeadlineText">CYBER SECURITY SAPAM MEDED Created By : Mbah Pri</h3>
+                    <p class="welcomeSublineText">Unified Security Operations System. Seluruh transmisi enkripsi data log lapangan dan integrasi sub-aplikasi dipantau penuh secara terpusat dari modul kendali kami.
+WE ARE NOTHING BUT WE ARE EVERYTHING</p>
 
                     <div class="welcomeStatPills">
                         <div class="statPill"><span class="statDot"></span> GPS Patroli: Online</div>
@@ -1691,7 +1728,7 @@ SIDE EFFECT: Baca dari localStorage saat init
 const CentralPlatformDatabase = {
     vaultUnlocked: false,
     currentAuthActionTarget: 'filemanager',
-    masterAdminPassword: "DANRU_PASSWORD_SECURE_99",
+    masterAdminPassword: null, // Password diambil dari Google Sheets, tidak disimpan di HTML
     mockSystemFiles: [
         { name: "core_worker_v40.8.js",           size: "45.2 KB", type: "JavaScript",    updated: "Just Now" },
         { name: "attendance_sync_payload.json",    size: "12.8 KB", type: "JSON Data",     updated: "10 mins ago" },
@@ -1965,18 +2002,7 @@ OUTPUT  : -
 SIDE EFFECT: Update masterAdminPassword, simpan ke localStorage
 */
 function promptChangeAdminPassword() {
-    const oldPass = prompt("Masukkan password admin lama:");
-    if (oldPass === CentralPlatformDatabase.masterAdminPassword) {
-        const newPass = prompt("Masukkan password admin BARU:");
-        if (newPass && newPass.trim().length > 0) {
-            CentralPlatformDatabase.masterAdminPassword = newPass.trim();
-            try { localStorage.setItem('soc_master_admin_pass', CentralPlatformDatabase.masterAdminPassword); } catch(e) {}
-            spawnPlatformNotificationToast("VAULT", "Password admin berhasil diubah secara dinamis.");
-            pushTerminalLogStreamRow(new Date().toLocaleTimeString(), "system", "Master Admin Password updated outside HTML code.");
-        }
-    } else if (oldPass !== null) {
-        alert("Password lama salah. Proses enkripsi dibatalkan.");
-    }
+    spawnPlatformNotificationToast("INFO", "Ubah password melalui Google Sheets yang terhubung.");
 }
 
 /*
@@ -1986,11 +2012,20 @@ INPUT   : -
 OUTPUT  : -
 SIDE EFFECT: Update masterAdminPassword
 */
-function loadSavedPasswordStateFromStorage() {
+// ==== KONFIGURASI: Ganti dengan URL Web App Apps Script kamu ====
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyx10Vbhg6AZsJGPKGTJOWNjOeW82DFI8FJ-GVQYhYgE4OptT1b-opt51ANqyCQDIau/exec";
+// ================================================================
+
+async function loadSavedPasswordStateFromStorage() {
     try {
-        const saved = localStorage.getItem('soc_master_admin_pass');
-        if (saved) CentralPlatformDatabase.masterAdminPassword = saved;
-    } catch(e) {}
+        const res = await fetch(APPS_SCRIPT_URL);
+        const data = await res.json();
+        if (data && data.password) {
+            CentralPlatformDatabase.masterAdminPassword = data.password;
+        }
+    } catch(e) {
+        console.warn("Gagal mengambil password dari Google Sheets:", e);
+    }
 }
 /* ==================================================
 FEATURE END : VAULT SECURITY GATE
@@ -2066,7 +2101,7 @@ function routePlatformView(targetStaticRouteView) {
     if (targetStaticRouteView === 'dashboard') {
         document.getElementById('menuDash').classList.add('active');
         document.getElementById('mNavDash').classList.add('active');
-        document.getElementById('platformHeaderTitle').innerText = "Home Welcome Portal";
+        document.getElementById('platformHeaderTitle').innerText = "Welcome in Portal Cyber Security SAPAM MEDED";
         executeActivePaneToggle('dashboard');
     } else if (targetStaticRouteView === 'filemanager') {
         document.getElementById('menuFileManager').classList.add('active');
@@ -2155,14 +2190,17 @@ SIDE EFFECT: Tambah/hapus class drawer-open, show/hide backdrop
 function triggerMobileAppSelectorDrawer(open) {
     const sidebar  = document.getElementById('sidebarNode');
     const backdrop = document.getElementById('drawerBackdrop');
+    const shell    = document.querySelector('.appShellWrapper');
     if (open) {
         sidebar.classList.add('drawer-open');
         sidebar.style.display = 'flex';
         backdrop.style.display = 'block';
+        if (shell) shell.classList.add('drawer-is-open');
     } else {
         sidebar.classList.remove('drawer-open');
         sidebar.style.display = '';
         backdrop.style.display = 'none';
+        if (shell) shell.classList.remove('drawer-is-open');
     }
 }
 /* ==================================================
