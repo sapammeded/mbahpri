@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>SOC Portal — Security Operations Center</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ═══ PREMIUM BASE & CONFIG ═══ */
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;background:#f3f4f6}
+body{
+  font-family:'Inter',-apple-system,system-ui,sans-serif;
+  font-size:14px;
+  color:#1e293b;
+  display:flex;flex-direction:column;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+input,button,textarea,select{font-family:inherit;border:none;outline:none;background:none;color:inherit;cursor:pointer}
+input[type="text"],input[type="password"],textarea,select{
+  background:#fff;
+  border:1px solid #e2e8f0;
+  border-radius:10px;
+  padding:0 16px;
+  color:#0f172a;
+  font-size:14px;
+  cursor:text;
+  transition:all .2s cubic-bezier(.4,0,.2,1);
+  box-shadow:0 1px 2px rgba(0,0,0,.05);
+}
+input[type="text"]:focus,input[type="password"]:focus,textarea:focus,select:focus{
+  border-color:#6366f1;
+  box-shadow:0 0 0 4px rgba(99,102,241,.15);
+  background:#fff;
+}
+textarea{padding:12px 16px;resize:vertical}
+select{
+  appearance:none;
+  padding:0 40px 0 16px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 14px center;
+  cursor:pointer;
+}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:99px}
+::-webkit-scrollbar-thumb:hover{background:#94a3b8}
+
+/* ═══ PREMIUM DARK MODE ═══ */
+[data-theme="dark"] body{background:#0b0f19;color:#cbd5e1}
+[data-theme="dark"] input[type="text"],[data-theme="dark"] input[type="password"],[data-theme="dark"] textarea,[data-theme="dark"] select{
+  background:#131c2e;border-color:#1e293b;color:#f8fafc;box-shadow:0 1px 2px rgba(0,0,0,.2);
+}
+[data-theme="dark"] input[type="text"]:focus,[data-theme="dark"] input[type="password"]:focus,[data-theme="dark"] textarea:focus,[data-theme="dark"] select:focus{
+  border-color:#6366f1;background:#131c2e;box-shadow:0 0 0 4px rgba(99,102,241,.2);
+}
+[data-theme="dark"] ::-webkit-scrollbar-thumb{background:#334155}
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover{background:#475569}
+
+/* ═══ SOPHISTICATED HEADER ═══ */
+#header{
+  height:64px;
+  background:rgba(255,255,255,.8);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(226,232,240,.8);
+  display:flex;align-items:center;
+  padding:0 24px 0 0;
+  gap:16px;
+  flex-shrink:0;
+  position:relative;z-index:100;
+  box-shadow:0 1px 3px rgba(0,0,0,.02);
+}
+[data-theme="dark"] #header{
+  background:rgba(15,23,42,.8);
+  border-color:rgba(30,41,59,.8);
+  box-shadow:0 1px 3px rgba(0,0,0,.2);
+}
+
+#hdr-menu{
+  width:64px;height:64px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  transition:all .2s;
+  border-right:1px solid rgba(226,232,240,.6);
+}
+#hdr-menu:hover{background:rgba(241,245,249,.8)}
+#hdr-menu svg{width:22px;height:22px;stroke:#475569;transition:stroke .2s}
+#hdr-menu:hover svg{stroke:#0f172a}
+[data-theme="dark"] #hdr-menu{border-right-color:rgba(30,41,59,.6)}
+[data-theme="dark"] #hdr-menu:hover{background:rgba(30,41,59,.6)}
+[data-theme="dark"] #hdr-menu:hover svg{stroke:#f8fafc}
+
+#hdr-brand{display:flex;align-items:center;gap:14px;padding-left:8px;flex-shrink:0}
+#hdr-logo{
+  width:36px;height:36px;border-radius:10px;
+  background:linear-gradient(135deg,#4f46e5,#7c3aed);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;font-weight:800;color:#fff;
+  flex-shrink:0;overflow:hidden;
+  box-shadow:0 4px 12px rgba(79,70,229,.3);
+  position:relative;
+}
+#hdr-logo img{width:100%;height:100%;object-fit:cover}
+#hdr-brand-text{display:flex;flex-direction:column;line-height:1.2}
+#hdr-brand-text strong{font-size:16px;font-weight:700;color:#0f172a;letter-spacing:-.02em}
+#hdr-brand-text span{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#4f46e5}
+[data-theme="dark"] #hdr-brand-text strong{color:#f8fafc}
+[data-theme="dark"] #hdr-brand-text span{color:#818cf8}
+
+.hdr-div{width:1px;height:24px;background:#e2e8f0;flex-shrink:0}
+[data-theme="dark"] .hdr-div{background:#1e293b}
+
+#hdr-bread{
+  font-size:14px;color:#64748b;font-weight:500;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;
+}
+#hdr-bread .ba{color:#0f172a;font-weight:600}
+[data-theme="dark"] #hdr-bread .ba{color:#f8fafc}
+
+#hdr-search{flex:1;max-width:420px;position:relative;margin:0 8px}
+#hdr-search input{
+  width:100%;height:40px;
+  background:#f8fafc;
+  border:1px solid #e2e8f0;
+  border-radius:10px;
+  padding:0 16px 0 44px;
+  font-size:14px;
+}
+#hdr-search input::placeholder{color:#94a3b8}
+#hdr-search input:focus{background:#fff;border-color:#4f46e5}
+[data-theme="dark"] #hdr-search input{background:#0f172a;border-color:#1e293b}
+[data-theme="dark"] #hdr-search input:focus{background:#131c2e;border-color:#6366f1}
+#hdr-search .hs-ico{position:absolute;left:14px;top:50%;transform:translateY(-50%);pointer-events:none}
+#hdr-search .hs-ico svg{width:18px;height:18px;stroke:#64748b}
+#hdr-search .hs-kbd{
+  position:absolute;right:12px;top:50%;transform:translateY(-50%);
+  font-size:11px;font-family:'JetBrains Mono',monospace;font-weight:600;
+  color:#64748b;background:#edf2f7;border:1px solid #e2e8f0;
+  border-radius:6px;padding:2px 6px;pointer-events:none;
+}
+[data-theme="dark"] #hdr-search .hs-kbd{background:#1e293b;border-color:#334155;color:#94a3b8}
+
+#hdr-right{display:flex;align-items:center;gap:8px;margin-left:auto}
+
+.hdr-pill{
+  display:flex;align-items:center;gap:8px;
+  height:32px;padding:0 14px;border-radius:99px;
+  font-size:11px;font-weight:700;letter-spacing:.05em;
+  font-family:'JetBrains Mono',monospace;
+  background:rgba(16,185,129,.1);color:#059669;
+  border:1px solid rgba(16,185,129,.2);
+}
+.hdr-pill .pd{width:8px;height:8px;border-radius:50%;background:#10b981;box-shadow:0 0 8px #10b981;animation:pulse 2s infinite}
+@keyframes pulse{0%{transform:scale(0.95);box-shadow:0 0 0 0 rgba(16,185,129,0.5)}70%{transform:scale(1);box-shadow:0 0 0 6px rgba(16,185,129,0)}100%{transform:scale(0.95);box-shadow:0 0 0 0 rgba(16,185,129,0)}}
+
+.hdr-btn{
+  width:40px;height:40px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s;position:relative;
+  color:#64748b;
+}
+.hdr-btn:hover{background:#f1f5f9;color:#0f172a}
+[data-theme="dark"] .hdr-btn:hover{background:#1e293b;color:#f8fafc}
+.hdr-btn svg{width:20px;height:20px;stroke:currentColor;transition:transform .2s}
+.hdr-btn:hover svg{transform:scale(1.05)}
+.hdr-btn .hd{position:absolute;top:10px;right:10px;width:8px;height:8px;border-radius:50%;background:#ef4444;border:2px solid #fff}
+[data-theme="dark"] .hdr-btn .hd{border-color:#0f172a}
+
+.hdr-av{
+  width:38px;height:38px;border-radius:50%;
+  background:linear-gradient(135deg,#4f46e5,#7c3aed);
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:700;color:#fff;
+  flex-shrink:0;margin-left:8px;
+  box-shadow:0 4px 10px rgba(79,70,229,.25);
+  border:2px solid #fff;
+}
+[data-theme="dark"] .hdr-av{border-color:#0f172a}
+
+/* ═══ PREMIUM LAYOUT ═══ */
+#layout{display:flex;flex:1;overflow:hidden;position:relative}
+
+/* ═══ ELITE SIDEBAR (WORDPRESS / SAAS DESIGN) ═══ */
+#sidebar{
+  width:68px;
+  background:#1e293b;
+  display:flex;flex-direction:column;
+  flex-shrink:0;overflow:hidden;
+  transition:width .25s cubic-bezier(.4,0,.2,1);
+  z-index:50;
+  box-shadow: 4px 0 24px rgba(0,0,0,.05);
+}
+#sidebar.open{width:260px}
+[data-theme="dark"] #sidebar{background:#0f172a;box-shadow: 4px 0 24px rgba(0,0,0,.2)}
+
+.sb-scroll{flex:1;overflow-y:auto;overflow-x:hidden;padding:16px 0}
+.sb-label{
+  height:24px;padding:0 0 0 24px;
+  display:flex;align-items:center;
+  font-size:10px;font-weight:800;letter-spacing:.15em;
+  text-transform:uppercase;color:#94a3b8;
+  white-space:nowrap;overflow:hidden;
+  opacity:0;transition:opacity .15s;
+  margin-top:14px;margin-bottom:6px;
+}
+#sidebar.open .sb-label{opacity:0.6;transition:opacity .2s .1s}
+
+.sb-item{
+  height:44px;margin:4px 12px;padding:0 14px;
+  display:flex;align-items:center;gap:14px;
+  border-radius:10px;
+  cursor:pointer;
+  white-space:nowrap;overflow:hidden;
+  color:#94a3b8;
+  transition:all .2s cubic-bezier(.4,0,.2,1);
+}
+.sb-item:hover{background:rgba(255,255,255,.05);color:#f8fafc}
+.sb-item.active{background:#4f46e5;color:#fff;box-shadow:0 4px 12px rgba(79,70,229,.35)}
+.sb-item svg{width:20px;height:20px;flex-shrink:0;stroke:currentColor;transition:transform .2s}
+.sb-item:hover svg{transform:scale(1.05)}
+.sb-item.active svg{stroke:#fff}
+.sb-item .sb-l{
+  font-size:14px;font-weight:500;
+  overflow:hidden;text-overflow:ellipsis;
+  opacity:0;transition:opacity .15s;
+}
+#sidebar.open .sb-item .sb-l{opacity:1;transition:opacity .2s .1s}
+.sb-item .sb-t{
+  font-size:10px;font-weight:700;letter-spacing:.05em;
+  padding:2px 8px;border-radius:6px;
+  background:rgba(255,255,255,.1);color:#cbd5e1;
+  margin-left:auto;
+  opacity:0;transition:opacity .15s;
+}
+#sidebar.open .sb-item .sb-t{opacity:1}
+.sb-item.active .sb-t{background:rgba(255,255,255,.2);color:#fff}
+
+.sb-bottom{border-top:1px solid rgba(255,255,255,.06);padding:12px 0}
+
+/* ═══ PREMIUM WORKSPACE ═══ */
+#workspace{flex:1;display:flex;flex-direction:column;overflow:hidden;background:#f8fafc}
+[data-theme="dark"] #workspace{background:#0b0f19}
+
+/* PREMIUM HOME PORTAL */
+#home{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;padding:56px 40px;
+  overflow-y:auto;
+  background: radial-gradient(circle at top right, rgba(99,102,241,0.03), transparent 40%);
+}
+[data-theme="dark"] #home{
+  background: radial-gradient(circle at top right, rgba(99,102,241,0.05), transparent 45%);
+}
+
+#home .hh-eyebrow{
+  font-size:12px;font-weight:800;letter-spacing:.2em;
+  text-transform:uppercase;color:#4f46e5;
+  margin-bottom:12px;
+}
+[data-theme="dark"] #home .hh-eyebrow{color:#818cf8}
+#home h1{
+  font-size:clamp(28px,4vw,38px);font-weight:800;
+  color:#0f172a;line-height:1.15;
+  margin-bottom:12px;letter-spacing:-.03em;
+  text-align:center;
+}
+[data-theme="dark"] #home h1{color:#f8fafc}
+#home p{color:#475569;font-size:15px;max-width:540px;text-align:center;line-height:1.7;margin-bottom:48px;font-weight:400}
+[data-theme="dark"] #home p{color:#94a3b8}
+
+/* PREMIUM CARDS GRID */
+.hg{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:20px;
+  width:100%;max-width:1140px;
+}
+.hc{
+  background:#fff;
+  border:1px solid #e2e8f0;
+  border-radius:16px;
+  padding:26px;
+  cursor:pointer;
+  position:relative;
+  transition:all .3s cubic-bezier(.4,0,.2,1);
+  box-shadow:0 4px 6px -1px rgba(0,0,0,.02),0 2px 4px -1px rgba(0,0,0,.01);
+  overflow:hidden;
+}
+.hc::before{
+  content:'';position:absolute;inset:0;
+  border-radius:16px;padding:1.5px;
+  background:linear-gradient(135deg,#4f46e5,#7c3aed);
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  opacity:0;transition:opacity .3s ease;
+}
+.hc:hover{
+  transform:translateY(-4px);
+  box-shadow:0 20px 25px -5px rgba(0,0,0,.05),0 10px 10px -5px rgba(0,0,0,.02);
+}
+.hc:hover::before{opacity:1}
+[data-theme="dark"] .hc{background:#131c30;border-color:#1e293b}
+[data-theme="dark"] .hc:hover{
+  box-shadow:0 20px 25px -5px rgba(0,0,0,.3),0 10px 10px -5px rgba(0,0,0,.2);
+  background:#17223b;
+}
+
+.hc-icon-wrapper{
+  width:44px;height:44px;border-radius:12px;
+  background:#f1f5f9;display:flex;align-items:center;justify-content:center;
+  margin-bottom:18px;transition:all .3s;
+  color:#4f46e5;
+}
+.hc:hover .hc-icon-wrapper{background:#4f46e5;color:#fff;transform:scale(1.05)}
+[data-theme="dark"] .hc-icon-wrapper{background:#1e293b;color:#818cf8}
+.hc-icon-wrapper svg{width:22px;height:22px;stroke:currentColor;fill:none}
+
+.hc .hc-n{font-size:16px;font-weight:700;color:#0f172a;margin-bottom:6px;letter-spacing:-.01em}
+.hc .hc-d{font-size:13px;color:#475569;line-height:1.6;font-weight:400}
+[data-theme="dark"] .hc .hc-n{color:#f8fafc}
+[data-theme="dark"] .hc .hc-d{color:#94a3b8}
+
+/* PREMIUM IFRAME BROWSER CONTAINER */
+#ifrm{flex:1;display:none;flex-direction:column;overflow:hidden;position:relative}
+#ifrm.active{display:flex}
+#ifrm .ft{
+  height:48px;
+  background:#fff;
+  border-bottom:1px solid #e2e8f0;
+  display:flex;align-items:center;gap:12px;padding:0 20px;flex-shrink:0;
+}
+[data-theme="dark"] #ifrm .ft{background:#131c30;border-color:#1e293b}
+.ft-dots{display:flex;gap:6px;flex-shrink:0}
+.ft-d{width:11px;height:11px;border-radius:50%}
+.ft-d.r{background:#ff5f56}
+.ft-d.y{background:#ffbd2e}
+.ft-d.g{background:#27c93f}
+
+#ifrm .ft .fu{
+  flex:1;max-width:540px;height:30px;
+  background:#f1f5f9;border:1px solid #e2e8f0;
+  border-radius:8px;padding:0 14px;
+  font-size:13px;font-family:'JetBrains Mono',monospace;color:#475569;
+  display:flex;align-items:center;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+[data-theme="dark"] #ifrm .ft .fu{background:#0b0f19;border-color:#1e293b;color:#94a3b8}
+
+.ftb{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;transition:all .15s;color:#64748b}
+.ftb:hover{background:#f1f5f9;color:#0f172a}
+[data-theme="dark"] .ftb:hover{background:#1e293b;color:#f8fafc}
+.ftb svg{width:16px;height:16px;stroke:currentColor}
+
+#ifrm iframe{flex:1;border:none;background:#f8fafc}
+[data-theme="dark"] #ifrm iframe{background:#0b0f19}
+
+/* SKELETON ANIMATION SHIMMER */
+#skel{position:absolute;inset:48px 0 0;background:#f8fafc;padding:32px;display:none;flex-direction:column;gap:16px;z-index:10}
+#skel.show{display:flex}
+[data-theme="dark"] #skel{background:#0b0f19}
+.sk{height:14px;border-radius:8px;background:linear-gradient(90deg,#e2e8f0 25%,#f1f5f9 50%,#e2e8f0 75%);background-size:200% 100%;animation:sk-sh 1.5s ease infinite}
+[data-theme="dark"] .sk{background:linear-gradient(90deg,#1e293b 25%,#2d3d5a 50%,#1e293b 75%)}
+@keyframes sk-sh{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* ═══ FILE MANAGER PREMIUM PANEL ═══ */
+.fm-overlay{
+  position:fixed;inset:0;z-index:9999;
+  background:rgba(15,23,42,.4);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  display:none;align-items:center;justify-content:center;padding:24px;
+}
+.fm-overlay.active{display:flex}
+
+.fm-pw{
+  background:#fff;border-radius:24px;
+  padding:56px 48px;
+  width:100%;max-width:440px;
+  text-align:center;
+  box-shadow:0 25px 50px -12px rgba(0,0,0,.15);
+  border:1px solid #e2e8f0;
+}
+[data-theme="dark"] .fm-pw{background:#131c30;border-color:#1e293b;box-shadow:0 25px 50px -12px rgba(0,0,0,.5)}
+.fm-pw .pw-icon{font-size:44px;margin-bottom:20px}
+.fm-pw h2{font-size:22px;font-weight:800;color:#0f172a;margin-bottom:8px;letter-spacing:-.02em}
+.fm-pw p{color:#475569;font-size:14px;margin-bottom:28px;line-height:1.5}
+[data-theme="dark"] .fm-pw h2{color:#f8fafc} [data-theme="dark"] .fm-pw p{color:#94a3b8}
+.fm-pw input{width:100%;height:48px;margin-bottom:20px;text-align:center;font-size:18px;letter-spacing:4px;font-weight:600}
+.fm-pw .pw-btn{
+  width:100%;height:48px;border-radius:12px;
+  background:#4f46e5;color:#fff;
+  font-weight:600;font-size:14px;
+  transition:all .2s;box-shadow:0 4px 12px rgba(79,70,229,.25);
+}
+.fm-pw .pw-btn:hover{background:#4338ca;transform:translateY(-1px)}
+.fm-pw .pw-err{color:#ef4444;font-size:13px;font-weight:500;margin-top:12px;display:none}
+
+.fm-panel{
+  background:#fff;border-radius:24px;
+  width:100%;max-width:920px;
+  max-height:85vh;
+  display:none;flex-direction:column;
+  overflow:hidden;
+  box-shadow:0 25px 50px -12px rgba(0,0,0,.25);
+  border:1px solid #e2e8f0;
+  animation:fmi .3s cubic-bezier(.34,1.56,0.64,1);
+}
+[data-theme="dark"] .fm-panel{background:#131c30;border-color:#1e293b}
+@keyframes fmi{from{opacity:0;transform:scale(0.95) translateY(15px)}to{opacity:1;transform:scale(1) translateY(0)}}
+
+.fm-header{
+  padding:24px 32px;
+  border-bottom:1px solid #e2e8f0;
+  display:flex;align-items:center;justify-content:space-between;flex-shrink:0;
+}
+[data-theme="dark"] .fm-header{border-color:#1e293b}
+.fm-header h2{font-size:19px;font-weight:800;color:#0f172a;letter-spacing:-.02em}
+[data-theme="dark"] .fm-header h2{color:#f8fafc}
+.fm-header .fm-close{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;transition:all .15s;color:#64748b}
+.fm-header .fm-close:hover{background:#f1f5f9;color:#0f172a}
+[data-theme="dark"] .fm-header .fm-close:hover{background:#1e293b;color:#f8fafc}
+.fm-header .fm-close svg{width:22px;height:22px;stroke:currentColor}
+
+.fm-tabs{display:flex;border-bottom:1px solid #e2e8f0;padding:0 32px;flex-shrink:0;gap:8px}
+[data-theme="dark"] .fm-tabs{border-color:#1e293b}
+.fm-tab{
+  padding:16px 16px;
+  font-size:14px;font-weight:600;
+  color:#64748b;cursor:pointer;
+  border-bottom:3px solid transparent;
+  transition:all .2s;
+}
+.fm-tab:hover{color:#0f172a}
+.fm-tab.active{color:#4f46e5;border-bottom-color:#4f46e5}
+[data-theme="dark"] .fm-tab{color:#94a3b8}
+[data-theme="dark"] .fm-tab:hover{color:#f8fafc}
+[data-theme="dark"] .fm-tab.active{color:#818cf8;border-bottom-color:#818cf8}
+
+.fm-body{flex:1;overflow-y:auto;padding:32px;min-height:360px;max-height:60vh}
+
+/* Logo Tab Content */
+.lg-section{max-width:480px}
+.lg-section h3{font-size:15px;font-weight:700;color:#0f172a;margin-bottom:12px}
+[data-theme="dark"] .lg-section h3{color:#f8fafc}
+.lg-preview{
+  width:110px;height:110px;
+  background:#f8fafc;border:2px dashed #cbd5e1;
+  border-radius:16px;display:flex;align-items:center;justify-content:center;
+  margin-bottom:20px;overflow:hidden;
+  cursor:pointer;transition:all .2s;
+}
+.lg-preview:hover{border-color:#4f46e5;background:#f1f5f9}
+[data-theme="dark"] .lg-preview{background:#0b0f19;border-color:#334155}
+[data-theme="dark"] .lg-preview:hover{border-color:#6366f1;background:#131c30}
+.lg-preview img{width:100%;height:100%;object-fit:cover}
+.lg-preview .lg-ph{color:#94a3b8;font-size:13px;text-align:center;padding:14px;font-weight:500}
+
+.lg-upload-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.lg-btn{
+  padding:10px 22px;border-radius:10px;
+  background:#f1f5f9;color:#334155;
+  font-size:13.5px;font-weight:600;
+  transition:all .15s;cursor:pointer;
+}
+.lg-btn:hover{background:#e2e8f0}
+[data-theme="dark"] .lg-btn{background:#1e293b;color:#cbd5e1}
+[data-theme="dark"] .lg-btn:hover{background:#334155}
+.lg-upload-row input[type="file"]{display:none}
+
+.lg-save{
+  padding:10px 24px;border-radius:10px;
+  background:#4f46e5;color:#fff;
+  font-size:13.5px;font-weight:600;
+  transition:all .15s;box-shadow:0 4px 10px rgba(79,70,229,.2);
+}
+.lg-save:hover{background:#4338ca}
+
+.lg-reset{
+  padding:9px 16px;border-radius:10px;
+  background:transparent;color:#ef4444;
+  font-size:13px;font-weight:600;
+  border:1.5px solid rgba(239,68,68,.2);
+  transition:all .15s;
+}
+.lg-reset:hover{background:rgba(239,68,68,.06);border-color:#ef4444}
+
+/* Gallery Tab Premium Control Controls */
+.gl-controls{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:24px;align-items:end}
+.gl-controls .gl-fld{display:flex;flex-direction:column;gap:6px}
+.gl-controls .gl-fld label{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.06em}
+[data-theme="dark"] .gl-controls .gl-fld label{color:#94a3b8}
+.gl-controls .gl-fld select{height:38px;min-width:100px;border-radius:10px}
+.gl-controls .gl-fld input[type="file"]{display:none}
+
+.gl-up-btn{
+  height:38px;padding:0 20px;border-radius:10px;
+  background:#4f46e5;color:#fff;
+  font-size:13.5px;font-weight:600;
+  display:flex;align-items:center;gap:8px;
+  transition:all .15s;white-space:nowrap;cursor:pointer;
+  box-shadow:0 4px 10px rgba(79,70,229,.2);
+}
+.gl-up-btn:hover{background:#4338ca}
+.gl-up-btn svg{width:18px;height:18px;stroke:#fff}
+
+.gl-empty{text-align:center;padding:72px 24px;color:#94a3b8}
+.gl-empty .gl-e-icon{font-size:48px;margin-bottom:16px}
+.gl-empty p{font-size:14px;font-weight:500}
+
+.gl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px}
+.gl-item{
+  background:#f8fafc;border:1px solid #e2e8f0;
+  border-radius:14px;overflow:hidden;position:relative;
+  aspect-ratio:4/3;box-shadow:0 2px 4px rgba(0,0,0,.02);
+  transition:transform .2s;
+}
+.gl-item:hover{transform:scale(1.02)}
+[data-theme="dark"] .gl-item{background:#0b0f19;border-color:#1e293b}
+.gl-item img,.gl-item video{width:100%;height:100%;object-fit:cover;display:block}
+.gl-item .gl-overlay{
+  position:absolute;bottom:0;left:0;right:0;
+  background:linear-gradient(transparent,rgba(15,23,42,.85));
+  padding:24px 12px 12px;display:flex;flex-direction:column;
+}
+.gl-item .gl-overlay .gl-date{font-size:11px;color:#f1f5f9;font-weight:600;letter-spacing:0.02em}
+.gl-item .gl-del{
+  position:absolute;top:8px;right:8px;
+  width:32px;height:32px;border-radius:8px;
+  background:rgba(239,68,68,.9);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:all .2s;border:none;
+}
+.gl-item:hover .gl-del{opacity:1}
+.gl-item .gl-del:hover{background:#dc2626;transform:scale(1.05)}
+.gl-item .gl-del svg{width:16px;height:16px;stroke:#fff}
+
+/* ═══ PREMIUM FLOATING TOASTS ═══ */
+#toasts{position:fixed;bottom:32px;right:32px;z-index:99999;display:flex;flex-direction:column;gap:10px;pointer-events:none}
+.ts{
+  background:rgba(255,255,255,.95);backdrop-filter:blur(8px);
+  border:1px solid #e2e8f0;border-radius:14px;
+  padding:14px 20px;display:flex;align-items:center;gap:14px;
+  pointer-events:all;box-shadow:0 20px 25px -5px rgba(0,0,0,.08);
+  min-width:260px;max-width:360px;
+  animation:tsi .3s cubic-bezier(.34,1.56,0.64,1);
+}
+[data-theme="dark"] .ts{background:rgba(19,28,48,.95);border-color:#1e293b;box-shadow:0 20px 25px -5px rgba(0,0,0,.3)}
+@keyframes tsi{from{opacity:0;transform:translateX(30px) scale(0.9)}to{opacity:1;transform:translateX(0) scale(1)}}
+.ts.fw{animation:tso .25s forwards}
+@keyframes tso{to{opacity:0;transform:translateX(30px) scale(0.9)}}
+.ts .ts-i{width:10px;height:10px;border-radius:50%;background:#4f46e5;flex-shrink:0}
+[data-theme="dark"] .ts .ts-i{background:#818cf8}
+.ts .ts-b{flex:1}
+.ts .ts-t{font-size:13.5px;font-weight:700;color:#0f172a;margin-bottom:2px}
+.ts .ts-m{font-size:12px;color:#475569;font-weight:400;line-height:1.4}
+[data-theme="dark"] .ts .ts-t{color:#f8fafc} [data-theme="dark"] .ts .ts-m{color:#94a3b8}
+.ts .ts-x{font-size:18px;color:#94a3b8;cursor:pointer;flex-shrink:0;transition:color .15s;font-weight:300;padding-left:4px}
+.ts .ts-x:hover{color:#0f172a}
+[data-theme="dark"] .ts .ts-x:hover{color:#f8fafc}
+
+/* ═══ RESPONSIVE BREAKPOINTS ═══ */
+@media(max-width:768px){
+  #sidebar{position:fixed;left:0;top:64px;bottom:0;z-index:150;box-shadow:8px 0 32px rgba(0,0,0,.1);transform:translateX(-100%)}
+  #sidebar.open{transform:translateX(0);width:250px}
+  #sb-bg{position:fixed;inset:0;z-index:140;background:rgba(15,23,42,.3);backdrop-filter:blur(4px);display:none}
+  #sb-bg.show{display:block}
+  .hdr-pill{display:none}
+  #hdr-search .hs-kbd{display:none}
+  #hdr-search{max-width:200px}
+  .fm-panel{max-width:100%;max-height:100vh;border-radius:0;border:none;margin:-24px}
+  .fm-pw{padding:40px 24px;margin:16px}
+  .hg{grid-template-columns:1fr 1fr}
+  #home{padding:40px 20px}
+}
+@media(max-width:480px){
+  .hg{grid-template-columns:1fr}
+  #hdr-search{max-width:140px}
+  #hdr-search input{padding:0 12px 0 36px}
+  #hdr-search .hs-ico{left:12px}
+  .gl-grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr))}
+  .gl-controls .gl-fld select{min-width:75px;font-size:12px}
+}
+</style>
+</head>
+<body data-theme="light">
+
+<header id="header">
+  <button id="hdr-menu" onclick="toggleSidebar()">
+    <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-width="2">
+      <line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/>
+    </svg>
+  </button>
+  <div id="hdr-brand">
+    <div id="hdr-logo"><span id="logo-default">S</span></div>
+    <div id="hdr-brand-text">
+      <strong>SOC Portal</strong>
+      <span>Command Center</span>
+    </div>
+  </div>
+  <div class="hdr-div"></div>
+  <div id="hdr-bread"><span class="ba">Command Center</span></div>
+  <div id="hdr-search">
+    <span class="hs-ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="7.5"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+    <input type="text" id="srch" placeholder="Cari modul..." autocomplete="off">
+    <span class="hs-kbd">⌘K</span>
+  </div>
+  <div id="hdr-right">
+    <div class="hdr-pill"><div class="pd"></div>ONLINE</div>
+    <button class="hdr-btn" id="theme-btn" data-tip="Toggle theme">
+      <svg id="theme-svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+    </button>
+    <button class="hdr-btn" id="fs-btn" data-tip="Fullscreen">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>
+      </svg>
+    </button>
+    <button class="hdr-btn" id="notif-btn" data-tip="Notifications">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+      </svg>
+      <span class="hd"></span>
+    </button>
+    <div class="hdr-av">SA</div>
+  </div>
+</header>
+
+<div id="layout">
+  <nav id="sidebar">
+    <div class="sb-scroll">
+      <div class="sb-item active" data-mod="home">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span class="sb-l">Command Center</span>
+      </div>
+      <div class="sb-label">Patrol Operations</div>
+      <div class="sb-item" data-mod="patrol" data-url="https://sapammeded.github.io/aigpspatroli/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="sb-l">AI GPS Patrol</span><span class="sb-t">GPS</span></div>
+      <div class="sb-item" data-mod="escort" data-url="https://sapammeded.github.io/digitalescort/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9H9l-3-9H2"/><path d="M12 2v7m0 0l-3-3m3 3l3-3"/></svg><span class="sb-l">Digital Escort</span></div>
+      <div class="sb-label">Personnel</div>
+      <div class="sb-item" data-mod="absensi" data-url="https://sapammeded.github.io/absensionline5/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg><span class="sb-l">Absensi Online</span></div>
+      <div class="sb-item" data-mod="raport" data-url="https://sapammeded.github.io/raportsapam/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg><span class="sb-l">Raport Satpam</span></div>
+      <div class="sb-label">Documentation</div>
+      <div class="sb-item" data-mod="bak" data-url="https://sapammeded.github.io/BAK/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="sb-l">BAK</span></div>
+      <div class="sb-item" data-mod="lapsit" data-url="https://sapammeded.github.io/copaslapsit/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg><span class="sb-l">Lapsit</span></div>
+      <div class="sb-label">Reporting</div>
+      <div class="sb-item" data-mod="laporan" data-url="https://sapammeded.github.io/laporanbulanan/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><span class="sb-l">Laporan Bulanan</span><span class="sb-t">REP</span></div>
+      <div class="sb-label">Links</div>
+      <div class="sb-item" data-mod="commandcenter" data-url="https://sapammeded.github.io/commandcenter/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg><span class="sb-l">Command Center</span><span class="sb-t">NEW</span></div>
+    </div>
+    <div class="sb-bottom">
+      <div class="sb-item" id="nav-home-fixed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span class="sb-l">Command Center</span></div>
+      <div class="sb-item" id="fm-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="sb-l">File Manager</span></div>
+    </div>
+  </nav>
+  <div id="sb-bg"></div>
+
+  <main id="workspace">
+    <div id="home">
+      <div class="hh-eyebrow">Security Operations Center</div>
+      <h1>Command Center Portal</h1>
+      <p>Platform operasional terpadu dan sistem manajemen pengamanan premium terintegrasi.</p>
+      
+      <div class="hg">
+        <div class="hc" data-mod="patrol" data-url="https://sapammeded.github.io/aigpspatroli/">
+          <div class="hc-icon-wrapper">
+            <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div class="hc-n">AI GPS Patrol</div>
+          <div class="hc-d">Tracking patroli real-time berbasis GPS dan analisis AI performa tinggi.</div>
+        </div>
+        
+        <div class="hc" data-mod="absensi" data-url="https://sapammeded.github.io/absensionline5/">
+          <div class="hc-icon-wrapper">
+            <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </div>
+          <div class="hc-n">Absensi Online</div>
+          <div class="hc-d">Manajemen kehadiran personel keamanan digital terenkripsi cloud.</div>
+        </div>
+        
+        <div class="hc" data-mod="escort" data-url="https://sapammeded.github.io/digitalescort/">
+          <div class="hc-icon-wrapper">
+            <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9H9l-3-9H2"/><path d="M12 2v7m0 0l-3-3m3 3l3-3"/></svg>
+          </div>
+          <div class="hc-n">Digital Escort</div>
+          <div class="hc-d">Pengelolaan logistik, pengawalan, dan sterilisasi jalur taktis otomatis.</div>
+        </div>
+        
+        <div class="hc" data-mod="laporan" data-url="https://sapammeded.github.io/laporanbulanan/">
+          <div class="hc-icon-wrapper">
+            <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          </div>
+          <div class="hc-n">Laporan Bulanan</div>
+          <div class="hc-d">Kompilasi analitik komprehensif, performa, dan grafik audit bulanan.</div>
+        </div>
+        
+        <div class="hc" data-mod="bak" data-url="https://sapammeded.github.io/BAK/">
+          <div class="hc-icon-wrapper">
+            <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <div class="hc-n">BAK</div>
+          <div class="hc-d">Buku Administrasi Keamanan resmi berbasis enkarsulsi digital.</div>
+        </div>
+        
+        <div class="hc" data-mod="lapsit" data-url="https://sapammeded.github.io/copaslapsit/">
+          <div class="hc-icon-wrapper">
+            <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </div>
+          <div class="hc-n">Lapsit</div>
+          <div class="hc-d">Distribusi laporan kilat situasi harian inter-koneksi komando.</div>
+        </div>
+        
+        <div class="hc" data-mod="raport" data-url="https://sapammeded.github.io/raportsapam/">
+          <div class="hc-icon-wrapper">
+            <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          </div>
+          <div class="hc-n">Raport Satpam</div>
+          <div class="hc-d">Metrik penilaian berkala KPI kedisiplinan dan integritas personel.</div>
+        </div>
+        
+        <div class="hc" data-mod="commandcenter" data-url="https://sapammeded.github.io/commandcenter/">
+          <div class="hc-icon-wrapper">
+            <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <div class="hc-n">Command Center</div>
+          <div class="hc-d">Akses sekunder monitor dashboard utama multi-proyek industri.</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="ifrm">
+      <div class="ft">
+        <div class="ft-dots"><div class="ft-d r"></div><div class="ft-d y"></div><div class="ft-d g"></div></div>
+        <div class="fu" id="ft-url">—</div>
+        <button class="ftb" id="ft-reload"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg></button>
+        <button class="ftb" id="ft-ext"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></button>
+        <button class="ftb" id="ft-close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      </div>
+      <div id="skel">
+        <div class="sk" style="width:40%;height:18px"></div>
+        <div class="sk" style="width:75%"></div>
+        <div class="sk" style="width:55%"></div>
+        <div class="sk" style="width:85%"></div>
+        <div class="sk" style="height:220px;width:100%"></div>
+      </div>
+      <iframe id="mod-fr" sandbox="allow-same-origin allow-scripts allow-forms allow-popups" loading="lazy"></iframe>
+    </div>
+  </main>
+</div>
+
+<div class="fm-overlay" id="fmOverlay">
+  <div class="fm-pw" id="fmPw">
+    <div class="pw-icon">🛡️</div>
+    <h2>Autentikasi Panel</h2>
+    <p>Masukkan kunci administrasi tertinggi untuk melakukan modifikasi aset dan galeri operasional.</p>
+    <input type="password" id="pwInput" placeholder="Kunci Sandi" autocomplete="off">
+    <button class="pw-btn" id="pwSubmit">Masuk Sistem</button>
+    <div class="pw-err" id="pwErr">Autentikasi Gagal. Silakan periksa kembali sandi.</div>
+  </div>
+  
+  <div class="fm-panel" id="fmPanel" style="display:none">
+    <div class="fm-header">
+      <h2>File Manager Administrasi</h2>
+      <button class="fm-close" id="fmClose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="fm-tabs">
+      <div class="fm-tab active" data-tab="logo">Identitas Logo</div>
+      <div class="fm-tab" data-tab="gallery">Galeri Bukti Fisik</div>
+    </div>
+    <div class="fm-body" id="fmBody">
+      <div class="fm-tab-content" id="tab-logo">
+        <div class="lg-section">
+          <h3>Kustomisasi Logo Portal</h3>
+          <div class="lg-preview" id="logoPreview" onclick="document.getElementById('logoFile').click()">
+            <div class="lg-ph">Klik untuk unggah logo baru</div>
+          </div>
+          <div class="lg-upload-row">
+            <label class="lg-btn">Pilih File<input type="file" id="logoFile" accept="image/*"></label>
+            <button class="lg-save" id="logoSave">Terapkan Logo</button>
+            <button class="lg-reset" id="logoReset">Reset Default</button>
+          </div>
+          <p style="color:#64748b;font-size:12px;margin-top:14px;font-weight:500">Mendukung file format: PNG, JPG, WEBP. Maksimum: 2MB.</p>
+        </div>
+      </div>
+      
+      <div class="fm-tab-content" id="tab-gallery" style="display:none">
+        <div class="gl-controls">
+          <div class="gl-fld"><label>Tanggal</label><select id="glDay"><option value="">Hari</option></select></div>
+          <div class="gl-fld"><label>Bulan</label><select id="glMonth"><option value="">Bulan</option></select></div>
+          <div class="gl-fld"><label>Tahun</label><select id="glYear"><option value="">Tahun</option></select></div>
+          <div class="gl-fld"><label>&nbsp;</label><label class="gl-up-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Unggah Media<input type="file" id="glFile" accept="image/*,video/*" multiple></label></div>
+          <div style="margin-left:auto;display:flex;gap:8px">
+            <button class="lg-btn" id="glFilter" style="padding:8px 18px;font-size:13px;font-weight:600">Saring</button>
+            <button class="lg-reset" id="glClearFilter" style="padding:8px 14px;font-size:13px;color:#64748b;border-color:#cbd5e1">Bersihkan</button>
+          </div>
+        </div>
+        <div id="glContent">
+          <div class="gl-empty">
+            <div class="gl-e-icon">📂</div>
+            <p>Direktori kosong. Tentukan parameter tanggal pengunggahan data terlebih dahulu.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toasts"></div>
+
+<script>
+(function(){
+'use strict';
+
+const APPS = [
+  {id:'patrol',n:'AI GPS Patrol',url:'https://sapammeded.github.io/aigpspatroli/'},
+  {id:'absensi',n:'Absensi Online',url:'https://sapammeded.github.io/absensionline5/'},
+  {id:'escort',n:'Digital Escort',url:'https://sapammeded.github.io/digitalescort/'},
+  {id:'laporan',n:'Laporan Bulanan',url:'https://sapammeded.github.io/laporanbulanan/'},
+  {id:'bak',n:'BAK',url:'https://sapammeded.github.io/BAK/'},
+  {id:'lapsit',n:'Lapsit',url:'https://sapammeded.github.io/copaslapsit/'},
+  {id:'raport',n:'Raport Satpam',url:'https://sapammeded.github.io/raportsapam/'},
+  {id:'commandcenter',n:'Command Center',url:'https://sapammeded.github.io/commandcenter/'},
+];
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+let curMod='',curUrl='',sidebarOpen=false,dark=false;
+let fmAuthed=false,galleryItems=[];
+try{galleryItems=JSON.parse(localStorage.getItem('soc_gallery')||'[]')}catch(e){}
+
+const $=id=>document.getElementById(id);
+const qs=(s,p)=>(p||document).querySelector(s);
+const qsa=(s,p)=>(p||document).querySelectorAll(s);
+
+const sidebar=$('sidebar'),sbBg=$('sb-bg'),srch=$('srch');
+const home=$('home'),ifrm=$('ifrm'),frame=$('mod-fr'),skel=$('skel');
+const ftUrl=$('ft-url'),ftReload=$('ft-reload'),ftExt=$('ft-ext'),ftClose=$('ft-close');
+const navHome=$('nav-home-fixed'),bread=$('hdr-bread');
+const logoDefault=$('logo-default');
+const themeBtn=$('theme-btn'),themeSvg=$('theme-svg');
+const fsBtn=$('fs-btn'),notifBtn=$('notif-btn'),toasts=$('toasts');
+
+const fmOverlay=$('fmOverlay'),fmPw=$('fmPw'),fmPanel=$('fmPanel');
+const pwInput=$('pwInput'),pwSubmit=$('pwSubmit'),pwErr=$('pwErr');
+const fmClose=$('fmClose'),fmTrigger=$('fm-trigger');
+const logoFile=$('logoFile'),logoSave=$('logoSave'),logoReset=$('logoReset'),logoPreview=$('logoPreview');
+const glDay=$('glDay'),glMonth=$('glMonth'),glYear=$('glYear'),glFile=$('glFile');
+const glFilter=$('glFilter'),glClearFilter=$('glClearFilter'),glContent=$('glContent');
+
+window.toggleSidebar=function(){sidebarOpen=!sidebarOpen;sidebar.classList.toggle('open',sidebarOpen);sbBg.classList.toggle('show',sidebarOpen)};
+sbBg.addEventListener('click',()=>{sidebarOpen=false;sidebar.classList.remove('open');sbBg.classList.remove('show')});
+
+qsa('.sb-item[data-mod]').forEach(el=>{el.addEventListener('click',()=>{const a=APPS.find(x=>x.id===el.dataset.mod);if(a)loadMod(a)})});
+qsa('.hc').forEach(el=>{el.addEventListener('click',()=>{const a=APPS.find(x=>x.id===el.dataset.mod);if(a)loadMod(a)})});
+navHome.addEventListener('click',goHome);
+ftClose.addEventListener('click',goHome);
+
+function goHome(){
+  curMod='';curUrl='';
+  frame.src='about:blank';ifrm.classList.remove('active');home.style.display='';
+  qsa('.sb-item').forEach(n=>n.classList.remove('active'));
+  qs('.sb-item[data-mod="home"]').classList.add('active');
+  bread.innerHTML='<span class="ba">Command Center</span>';
+}
+function loadMod(a){
+  curMod=a.id;curUrl=a.url;
+  qsa('.sb-item').forEach(n=>n.classList.toggle('active',n.dataset.mod===a.id));
+  bread.innerHTML='<span class="ba">'+a.n+'</span>';
+  ftUrl.textContent=a.url;
+  home.style.display='none';ifrm.classList.add('active');skel.classList.add('show');
+  frame.style.opacity='0';frame.src=a.url;
+  toast(a.n,'Memuat modul operasional...');
+}
+frame.addEventListener('load',()=>{skel.classList.remove('show');frame.style.opacity='1';frame.style.transition='opacity .35s'});
+ftReload.addEventListener('click',()=>{skel.classList.add('show');frame.style.opacity='0';frame.src=frame.src;toast('Sistem','Sinkronisasi ulang modul...')});
+ftExt.addEventListener('click',()=>{if(curUrl)window.open(curUrl,'_blank')});
+
+srch.addEventListener('keydown',e=>{if(e.key==='Enter'){const q=srch.value.trim().toLowerCase();if(q){const hit=APPS.find(a=>a.n.toLowerCase().includes(q));if(hit){loadMod(hit);srch.value=''}}}if(e.key==='Escape')srch.blur()});
+document.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key==='k'){e.preventDefault();srch.focus()}});
+
+themeBtn.addEventListener('click',()=>{
+  dark=!dark;
+  document.body.setAttribute('data-theme',dark?'dark':'light');
+  themeSvg.innerHTML=dark?'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>':'<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
+  try{localStorage.setItem('soc_theme',dark?'dark':'light')}catch(e){}
+  toast('Sistem',dark?'Mode gelap diaktifkan':'Mode terang diaktifkan');
+});
+fsBtn.addEventListener('click',()=>{if(!document.fullscreenElement){document.documentElement.requestFullscreen().catch(()=>{})}else{document.exitFullscreen().catch(()=>{})}});
+notifBtn.addEventListener('click',()=>{toast('Notifikasi','Seluruh jalur komunikasi aman terpusat');qs('.hd').style.display='none'});
+
+function toast(title,msg){
+  const el=document.createElement('div');el.className='ts';
+  el.innerHTML='<div class="ts-i"></div><div class="ts-b"><div class="ts-t">'+title+'</div><div class="ts-m">'+msg+'</div></div><span class="ts-x">×</span>';
+  el.querySelector('.ts-x').onclick=()=>{el.classList.add('fw');setTimeout(()=>el.remove(),200)};
+  toasts.appendChild(el);
+  setTimeout(()=>{if(el.parentNode){el.classList.add('fw');setTimeout(()=>el.remove(),200)}},4000);
+}
+
+// ═══ FILE MANAGER BACKEND CONTEXT ═══
+let fmPassword=null;
+try{fmPassword=localStorage.getItem('soc_fm_pw')}catch(e){}
+
+fmTrigger.addEventListener('click',()=>{
+  fmOverlay.classList.add('active');fmAuthed=false;
+  fmPw.querySelector('h2').textContent=fmPassword?'Otorisasi Admin':'Inisialisasi Kunci';
+  fmPw.querySelector('p').textContent=fmPassword?'Masukkan kata sandi master untuk modifikasi internal.':'Buat kata sandi pengaman baru untuk mengunci manajemen file.';
+  pwInput.placeholder=fmPassword?'Kata Sandi':'Konfigurasi sandi baru...';
+  pwSubmit.textContent=fmPassword?'Otorisasi Selesai':'Simpan Kunci';
+  pwInput.value='';pwErr.style.display='none';
+  fmPw.style.display='';fmPanel.style.display='none';
+});
+fmClose.addEventListener('click',()=>{fmOverlay.classList.remove('active')});
+pwSubmit.addEventListener('click',authFM);
+pwInput.addEventListener('keydown',e=>{if(e.key==='Enter')authFM()});
+
+function authFM(){
+  const val=pwInput.value.trim();
+  if(!val){pwErr.textContent='Sandi mutlak tidak boleh kosong';pwErr.style.display='block';return}
+  if(!fmPassword){
+    if(val.length<3){pwErr.textContent='Gunakan minimal 3 karakter';pwErr.style.display='block';return}
+    fmPassword=val;
+    try{localStorage.setItem('soc_fm_pw',val)}catch(e){}
+    fmAuthed=true;openFMPanel();
+    toast('Konfigurasi','Sandi pengaman berhasil diterapkan');return;
+  }
+  if(val===fmPassword){fmAuthed=true;openFMPanel();return}
+  pwErr.style.display='block';pwInput.value='';
+}
+function openFMPanel(){fmPw.style.display='none';fmPanel.style.display='flex';loadLogoPreview();initGalleryControls();renderGallery()}
+
+// Tab Swapping
+qsa('.fm-tab').forEach(tab=>{tab.addEventListener('click',()=>{qsa('.fm-tab').forEach(t=>t.classList.remove('active'));tab.classList.add('active');const t=tab.dataset.tab;qsa('.fm-tab-content').forEach(c=>c.style.display='none');$('tab-'+t).style.display='block'})});
+
+// LOGO PROCESSOR
+let logoData=null;
+try{logoData=localStorage.getItem('soc_logo')}catch(e){}
+function loadLogoPreview(){
+  if(logoData&&logoData!==''){logoPreview.innerHTML='<img src="'+logoData+'" alt="Logo">'}else{logoPreview.innerHTML='<div class="lg-ph">Klik untuk unggah asset logo</div>'}
+}
+function updateSiteLogo(data){
+  logoData=data;
+  if(data&&data!==''){logoPreview.innerHTML='<img src="'+data+'" alt="Logo">';$('hdr-logo').innerHTML='<img src="'+data+'" alt="Logo">'}else{logoPreview.innerHTML='<div class="lg-ph">Klik untuk unggah asset logo</div>';$('hdr-logo').innerHTML='<span style="font-weight:800;color:#fff">S</span>'}
+}
+if(logoData&&logoData!==''){$('hdr-logo').innerHTML='<img src="'+logoData+'" alt="Logo">'}
+
+logoFile.addEventListener('change',function(){
+  if(this.files&&this.files[0]){const f=this.files[0];if(f.size>2*1024*1024){toast('Gagal','Kapasitas berkas terlalu besar, maksimal 2MB');return}const r=new FileReader();r.onload=function(e){logoPreview.innerHTML='<img src="'+e.target.result+'" alt="Preview">';logoPreview._data=e.target.result};r.readAsDataURL(f)}
+});
+logoSave.addEventListener('click',()=>{
+  if(logoPreview._data){const data=logoPreview._data;try{localStorage.setItem('soc_logo',data)}catch(e){toast('Gagal','Alokasi penyimpanan penuh');return}updateSiteLogo(data);toast('Sukses','Logo institusi berhasil diperbarui')}else{toast('Peringatan','Tentukan file gambar terlebih dahulu')}
+});
+logoReset.addEventListener('click',()=>{try{localStorage.removeItem('soc_logo')}catch(e){}logoData=null;logoPreview._data=null;updateSiteLogo(null);toast('Reset','Logo dikembalikan ke format awal')});
+
+// GALLERY HANDLER
+function initGalleryControls(){
+  glDay.innerHTML='<option value="">Hari</option>';for(let i=1;i<=31;i++)glDay.innerHTML+='<option value="'+i+'">'+i+'</option>';
+  glMonth.innerHTML='<option value="">Bulan</option>';MONTHS.forEach((m,i)=>glMonth.innerHTML+='<option value="'+(i+1)+'">'+m+'</option>');
+  const y=new Date().getFullYear();glYear.innerHTML='<option value="">Tahun</option>';for(let i=y;i>=y-10;i--)glYear.innerHTML+='<option value="'+i+'">'+i+'</option>';
+}
+glFile.addEventListener('change',function(){
+  if(!this.files||!this.files.length)return;
+  const day=glDay.value,month=glMonth.value,year=glYear.value;
+  if(!day||!month||!year){toast('Gagal','Wajib memilih target parameter tanggal sebelum mengunggah media');return}
+  const dateLabel=day+' '+MONTHS[parseInt(month)-1]+' '+year;
+  Array.from(this.files).forEach(f=>{
+    const type=f.type.startsWith('video')?'video':'image';
+    if(f.size>5*1024*1024){toast('Batas Ukuran',f.name+' melewati batas enkapsulasi (Maks 5MB)');return}
+    const r=new FileReader();
+    r.onload=function(e){
+      galleryItems.push({id:Date.now()+'_'+Math.random().toString(36).substr(2,6),type:type,data:e.target.result,date:{day:parseInt(day),month:parseInt(month),year:parseInt(year)},dateLabel:dateLabel,filename:f.name,ts:Date.now()});
+      try{localStorage.setItem('soc_gallery',JSON.stringify(galleryItems))}catch(e){toast('Penuh','Penyimpanan internal browser padat. Reduksi file lama.');galleryItems.pop();return}
+      renderGallery();toast('Galeri','Berhasil mengunggah '+f.name);
+    };
+    r.readAsDataURL(f);
+  });this.value='';
+});
+glFilter.addEventListener('click',renderGallery);
+glClearFilter.addEventListener('click',()=>{glDay.value='';glMonth.value='';glYear.value='';renderGallery()});
+
+function renderGallery(){
+  let items=[...galleryItems];
+  const d=glDay.value,m=glMonth.value,y=glYear.value;
+  if(d)items=items.filter(i=>i.date.day===parseInt(d));
+  if(m)items=items.filter(i=>i.date.month===parseInt(m));
+  if(y)items=items.filter(i=>i.date.year===parseInt(y));
+  items.sort((a,b)=>b.ts-a.ts);
+  if(!items.length){glContent.innerHTML='<div class="gl-empty"><div class="gl-e-icon">📂</div><p>'+(galleryItems.length?'Data arsip tidak ditemukan untuk kombinasi saringan ini.':'Arsip kosong. Konfigurasi tanggal lalu unggah data.')+'</p></div>';return}
+  let html='<div class="gl-grid">';
+  items.forEach(item=>{
+    const src=item.data;
+    if(item.type==='video'){
+      html+='<div class="gl-item"><video src="'+src+'" muted></video><div class="gl-overlay"><div class="gl-date">'+item.dateLabel+'</div></div><button class="gl-del" onclick="window.delGal(\''+item.id+'\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button></div>';
+    } else {
+      html+='<div class="gl-item"><img src="'+src+'" alt="'+item.filename+'"><div class="gl-overlay"><div class="gl-date">'+item.dateLabel+'</div></div><button class="gl-del" onclick="window.delGal(\''+item.id+'\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button></div>';
+    }
+  });
+  html+='</div>';glContent.innerHTML=html;
+}
+window.delGal=function(id){galleryItems=galleryItems.filter(i=>i.id!==id);try{localStorage.setItem('soc_gallery',JSON.stringify(galleryItems))}catch(e){}renderGallery();toast('Galeri','Aset data permanen dihapus')};
+
+// INITIATION DEPLOYMENT
+try{const s=localStorage.getItem('soc_theme');if(s!==null){dark=s==='dark';document.body.setAttribute('data-theme',dark?'dark':'light')}themeSvg.innerHTML=dark?'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>':'<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>'}catch(e){}
+qs('.sb-item[data-mod="home"]').classList.add('active');
+setTimeout(()=>toast('SOC Portal','Koneksi enkripsi terjalin. Seluruh sistem beroperasi penuh.'),600);
+})();
+</script>
+</body>
+</html>
