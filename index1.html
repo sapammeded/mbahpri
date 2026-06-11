@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -10,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <style>
-/* [STYLE CSS SAMA SEPERTI FILE ASLI - TIDAK DIUBAH] */
+
 /* ==================================================
 FEATURE START : ROOT DESIGN SYSTEM
 PURPOSE : Sistem variabel global warna, tipografi, efek visual untuk seluruh platform
@@ -105,9 +104,19 @@ PURPOSE : Sistem variabel global warna, tipografi, efek visual untuk seluruh pla
     --blur-md:       blur(0px);
     --blur-lg:       blur(0px);
 }
+/* ==================================================
+FEATURE END : ROOT DESIGN SYSTEM
+================================================== */
 
-/* [CSS LAINNYA SAMA - DIPERSINGKAT UNTUK KEMUDAHAN BACA] */
-html, body { height: 100%; overflow: hidden; }
+/* ==================================================
+FEATURE START : BODY & CANVAS LAYER
+PURPOSE : Dasar halaman dan layer kanvas matrix rain background
+================================================== */
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
 body {
     font-family: var(--font-body);
     background-color: var(--bg-base);
@@ -117,6 +126,8 @@ body {
     transition: background-color 0.4s var(--ease-smooth), color 0.4s var(--ease-smooth);
     position: relative;
 }
+
+/* Subtle radial vignette overlay */
 body::before {
     content: '';
     position: fixed;
@@ -143,7 +154,14 @@ body[data-panic="true"] { animation: panicPulse 1.8s infinite alternate; }
     transition: opacity 0.8s ease;
 }
 [data-theme="light"] #matrixCanvas { display: none; }
+/* ==================================================
+FEATURE END : BODY & CANVAS LAYER
+================================================== */
 
+/* ==================================================
+FEATURE START : APP SHELL LAYOUT
+PURPOSE : Struktur grid utama sidebar + konten
+================================================== */
 .appShellWrapper {
     display: flex;
     flex: 1;
@@ -152,7 +170,14 @@ body[data-panic="true"] { animation: panicPulse 1.8s infinite alternate; }
     position: relative;
     z-index: 5;
 }
+/* ==================================================
+FEATURE END : APP SHELL LAYOUT
+================================================== */
 
+/* ==================================================
+FEATURE START : SIDEBAR NAVIGATION PANEL
+PURPOSE : Panel navigasi kiri premium glassmorphism
+================================================== */
 .sidebarPanel {
     width: var(--sidebar-w);
     background: var(--bg-surface);
@@ -166,6 +191,8 @@ body[data-panic="true"] { animation: panicPulse 1.8s infinite alternate; }
     position: relative;
     overflow: hidden;
 }
+
+/* Glow edge accent */
 .sidebarPanel::after {
     content: '';
     position: absolute;
@@ -182,11 +209,13 @@ body[data-panic="true"] { animation: panicPulse 1.8s infinite alternate; }
     border-bottom: 1px solid var(--border-glow);
     position: relative;
 }
+
 .sidebarBrandArea .brandLogoRow {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
+
 .brandIdentityBlock h1 {
     font-family: var(--font-display);
     font-size: 11.5px;
@@ -198,6 +227,7 @@ body[data-panic="true"] { animation: panicPulse 1.8s infinite alternate; }
     line-height: 1.3;
 }
 [data-theme="light"] .brandIdentityBlock h1 { text-shadow: none; }
+
 .brandIdentityBlock .brandSubtag {
     font-family: var(--font-mono);
     font-size: 9.5px;
@@ -207,6 +237,7 @@ body[data-panic="true"] { animation: panicPulse 1.8s infinite alternate; }
     letter-spacing: 0.06em;
     text-transform: uppercase;
 }
+
 .brandStatusPill {
     display: flex;
     align-items: center;
@@ -235,6 +266,7 @@ body[data-panic="true"] { animation: panicPulse 1.8s infinite alternate; }
     font-weight: 600;
     letter-spacing: 0.04em;
 }
+
 .closeSidebarButton {
     display: none;
     background: none;
@@ -245,9 +277,11 @@ body[data-panic="true"] { animation: panicPulse 1.8s infinite alternate; }
     line-height: 1;
     padding: 4px;
 }
+
 .drawerBackdropOverlay {
     display: none;
     position: fixed;
+    /* Mulai dari kanan sidebar, bukan dari kiri layar */
     top: 0;
     left: 272px;
     right: 0;
@@ -256,6 +290,7 @@ body[data-panic="true"] { animation: panicPulse 1.8s infinite alternate; }
     z-index: 45;
     backdrop-filter: blur(4px);
 }
+
 .sidebarNavScroll {
     flex: 1;
     padding: 14px 10px;
@@ -266,6 +301,7 @@ body[data-panic="true"] { animation: panicPulse 1.8s infinite alternate; }
 .sidebarNavScroll::-webkit-scrollbar { width: 3px; }
 .sidebarNavScroll::-webkit-scrollbar-track { background: transparent; }
 .sidebarNavScroll::-webkit-scrollbar-thumb { background: var(--border-mid); border-radius: 99px; }
+
 .navSectionLabel {
     font-family: var(--font-mono);
     font-size: 9px;
@@ -285,6 +321,7 @@ body[data-panic="true"] { animation: panicPulse 1.8s infinite alternate; }
     height: 1px;
     background: var(--border-glow);
 }
+
 .navItem {
     display: flex;
     align-items: center;
@@ -349,6 +386,8 @@ body[data-panic="true"] { animation: panicPulse 1.8s infinite alternate; }
     background: var(--accent);
     box-shadow: 0 0 8px var(--accent);
 }
+
+/* SIDEBAR FOOTER */
 .sidebarFooter {
     padding: 14px 18px;
     border-top: 1px solid var(--border-glow);
@@ -359,12 +398,28 @@ body[data-panic="true"] { animation: panicPulse 1.8s infinite alternate; }
     letter-spacing: 0.04em;
     opacity: 0.7;
 }
+/* ==================================================
+FEATURE END : SIDEBAR NAVIGATION PANEL
+================================================== */
+
+/* ==================================================
+FEATURE START : MAIN OPERATIONS AREA
+PURPOSE : Area kerja utama: topbar + konten
+================================================== */
 .mainWorkArea {
     flex: 1;
     display: flex;
     flex-direction: column;
     overflow: hidden;
 }
+/* ==================================================
+FEATURE END : MAIN OPERATIONS AREA
+================================================== */
+
+/* ==================================================
+FEATURE START : TOP PLATFORM BAR
+PURPOSE : Header bar atas dengan judul, tema toggle, status sistem
+================================================== */
 .topPlatformBar {
     height: var(--topbar-h);
     background: var(--bg-surface);
@@ -389,6 +444,7 @@ body[data-panic="true"] { animation: panicPulse 1.8s infinite alternate; }
     opacity: 0.15;
 }
 [data-theme="light"] .topPlatformBar::after { display: none; }
+
 .topBarHamburger {
     display: none;
     background: none;
@@ -403,6 +459,7 @@ body[data-panic="true"] { animation: panicPulse 1.8s infinite alternate; }
     margin-right: 12px;
     flex-shrink: 0;
 }
+
 .viewTitleBlock {
     display: flex;
     align-items: center;
@@ -424,11 +481,13 @@ body[data-panic="true"] { animation: panicPulse 1.8s infinite alternate; }
     letter-spacing: 0.04em;
     text-transform: uppercase;
 }
+
 .topBarRightCluster {
     display: flex;
     align-items: center;
     gap: 10px;
 }
+
 .themeToggleButton {
     background: var(--bg-active);
     border: 1px solid var(--border-mid);
@@ -450,6 +509,7 @@ body[data-panic="true"] { animation: panicPulse 1.8s infinite alternate; }
     border-color: var(--accent);
     box-shadow: 0 0 12px rgba(0, 220, 255, 0.2);
 }
+
 .systemHealthBadge {
     display: flex;
     align-items: center;
@@ -477,6 +537,14 @@ body[data-panic="true"] { animation: panicPulse 1.8s infinite alternate; }
     0%, 100% { transform: scale(1); opacity: 1; }
     50%       { transform: scale(1.4); opacity: 0.6; }
 }
+/* ==================================================
+FEATURE END : TOP PLATFORM BAR
+================================================== */
+
+/* ==================================================
+FEATURE START : CONTENT VIEWPORT
+PURPOSE : Area scroll utama untuk konten dashboard / pane
+================================================== */
 .contentViewportArea {
     flex: 1;
     overflow-y: auto;
@@ -488,6 +556,14 @@ body[data-panic="true"] { animation: panicPulse 1.8s infinite alternate; }
 .contentViewportArea::-webkit-scrollbar { width: 4px; }
 .contentViewportArea::-webkit-scrollbar-track { background: transparent; }
 .contentViewportArea::-webkit-scrollbar-thumb { background: var(--border-mid); border-radius: 99px; }
+/* ==================================================
+FEATURE END : CONTENT VIEWPORT
+================================================== */
+
+/* ==================================================
+FEATURE START : WELCOME PORTAL DASHBOARD
+PURPOSE : Halaman selamat datang premium dengan efek visual berlapis
+================================================== */
 .welcomePortalCard {
     display: flex;
     flex-direction: column;
@@ -510,6 +586,8 @@ body[data-panic="true"] { animation: panicPulse 1.8s infinite alternate; }
         inset 0 0 60px rgba(0, 220, 255, 0.025);
     transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
 }
+
+/* Decorative scan line overlay */
 .welcomePortalCard::before {
     content: '';
     position: absolute;
@@ -525,6 +603,8 @@ body[data-panic="true"] { animation: panicPulse 1.8s infinite alternate; }
     z-index: 1;
 }
 [data-theme="light"] .welcomePortalCard::before { display: none; }
+
+/* Corner accent decorations */
 .welcomePortalCard::after {
     content: '';
     position: absolute;
@@ -534,6 +614,7 @@ body[data-panic="true"] { animation: panicPulse 1.8s infinite alternate; }
     pointer-events: none;
     z-index: 1;
 }
+
 .welcomeGridTexture {
     position: absolute;
     inset: 0;
@@ -549,6 +630,7 @@ body[data-panic="true"] { animation: panicPulse 1.8s infinite alternate; }
         linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
         linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px);
 }
+
 .welcomeGlowOrb {
     position: absolute;
     width: 500px; height: 500px;
@@ -562,6 +644,7 @@ body[data-panic="true"] { animation: panicPulse 1.8s infinite alternate; }
     0%   { transform: translate(-30px, -20px) scale(1); }
     100% { transform: translate(30px, 20px) scale(1.1); }
 }
+
 .welcomeGlowOrbPurple {
     position: absolute;
     width: 350px; height: 350px;
@@ -572,6 +655,8 @@ body[data-panic="true"] { animation: panicPulse 1.8s infinite alternate; }
     bottom: -80px; right: -80px;
     animation: orbDrift 10s ease-in-out infinite alternate-reverse;
 }
+
+/* Corner brackets decoration */
 .welcomeCornerBracket {
     position: absolute;
     width: 24px; height: 24px;
@@ -582,6 +667,7 @@ body[data-panic="true"] { animation: panicPulse 1.8s infinite alternate; }
 .welcomeCornerBracket.tr { top: 16px; right: 16px; border-top: 2px solid var(--accent); border-right: 2px solid var(--accent); border-radius: 0 4px 0 0; opacity: 0.4; }
 .welcomeCornerBracket.bl { bottom: 16px; left: 16px; border-bottom: 2px solid var(--accent); border-left: 2px solid var(--accent); border-radius: 0 0 0 4px; opacity: 0.4; }
 .welcomeCornerBracket.br { bottom: 16px; right: 16px; border-bottom: 2px solid var(--accent); border-right: 2px solid var(--accent); border-radius: 0 0 4px 0; opacity: 0.4; }
+
 .logoInteractiveWrapper {
     position: relative;
     z-index: 5;
@@ -590,6 +676,8 @@ body[data-panic="true"] { animation: panicPulse 1.8s infinite alternate; }
     transition: transform 0.5s var(--ease-spring);
 }
 .logoInteractiveWrapper:hover { transform: scale(1.05) rotate(1deg); }
+
+/* Hex ring around logo */
 .logoRingOuter {
     position: absolute;
     inset: -16px;
@@ -610,20 +698,28 @@ body[data-panic="true"] { animation: panicPulse 1.8s infinite alternate; }
 }
 [data-theme="light"] .logoRingOuter,
 [data-theme="light"] .logoRingInner { display: none; }
+
 .mainLogoImage {
     width: 180px;
     height: 180px;
+
     object-fit: cover;
     object-position: center center;
+
     border-radius: 20px;
     border: 1px solid var(--border-mid);
+
     background: rgba(1, 3, 10, 0.9);
+
     padding: 0;
+
     filter: drop-shadow(0 0 24px rgba(0, 220, 255, 0.3));
+
     transition:
         object-fit .3s ease,
         transform .3s ease,
         filter .3s ease;
+
     display: block;
     position: relative;
     z-index: 2;
@@ -637,6 +733,7 @@ body[data-panic="true"] { animation: panicPulse 1.8s infinite alternate; }
     filter: drop-shadow(0 0 40px rgba(0, 220, 255, 0.6));
     border-color: var(--accent);
 }
+
 .welcomeHeadlineText {
     position: relative;
     z-index: 5;
@@ -649,12 +746,14 @@ body[data-panic="true"] { animation: panicPulse 1.8s infinite alternate; }
     text-transform: uppercase;
     line-height: 1.2;
 }
+/* Gradient text highlight for dark mode */
 body:not([data-theme="light"]) .welcomeHeadlineText {
     background: linear-gradient(135deg, #e8f4ff 0%, #7dd3f8 50%, #a78bfa 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }
+
 .welcomeSublineText {
     position: relative;
     z-index: 5;
@@ -665,6 +764,8 @@ body:not([data-theme="light"]) .welcomeHeadlineText {
     font-weight: 400;
     letter-spacing: 0.01em;
 }
+
+/* STAT PILLS ROW */
 .welcomeStatPills {
     display: flex;
     gap: 10px;
@@ -700,6 +801,7 @@ body:not([data-theme="light"]) .welcomeHeadlineText {
     background: var(--accent-green);
     box-shadow: 0 0 6px var(--accent-green);
 }
+
 .floatingConfigDock {
     position: absolute;
     bottom: 20px;
@@ -730,6 +832,14 @@ body:not([data-theme="light"]) .welcomeHeadlineText {
     box-shadow: 0 0 14px rgba(0, 220, 255, 0.2);
     color: var(--accent);
 }
+/* ==================================================
+FEATURE END : WELCOME PORTAL DASHBOARD
+================================================== */
+
+/* ==================================================
+FEATURE START : SECURE MODAL SYSTEM
+PURPOSE : Modal overlay terproteksi untuk auth gateway dan konfigurasi
+================================================== */
 .secureModalOverlay {
     position: fixed;
     inset: 0;
@@ -743,6 +853,7 @@ body:not([data-theme="light"]) .welcomeHeadlineText {
     padding: 20px;
 }
 [data-theme="light"] .secureModalOverlay { background: rgba(0,0,0,0.5); }
+
 .secureModalCard {
     background: linear-gradient(145deg, #080d1f 0%, #060a18 100%);
     border: 1px solid var(--border-mid);
@@ -767,6 +878,8 @@ body:not([data-theme="light"]) .welcomeHeadlineText {
     border-color: var(--border-mid);
     box-shadow: 0 30px 80px rgba(0,0,0,0.15);
 }
+
+/* Top accent bar on modal */
 .secureModalCard::before {
     content: '';
     position: absolute;
@@ -774,6 +887,7 @@ body:not([data-theme="light"]) .welcomeHeadlineText {
     height: 2px;
     background: linear-gradient(90deg, var(--accent-purple), var(--accent), var(--accent-green));
 }
+
 .modalCardHeading h3 {
     font-family: var(--font-display);
     font-size: 14px;
@@ -789,6 +903,7 @@ body:not([data-theme="light"]) .welcomeHeadlineText {
     color: var(--text-secondary);
     line-height: 1.5;
 }
+
 .modalFormLabel {
     display: block;
     font-family: var(--font-mono);
@@ -799,6 +914,7 @@ body:not([data-theme="light"]) .welcomeHeadlineText {
     font-weight: 600;
     margin-bottom: 7px;
 }
+
 .modalFormInput {
     width: 100%;
     background: rgba(0, 0, 0, 0.4);
@@ -816,14 +932,24 @@ body:not([data-theme="light"]) .welcomeHeadlineText {
     border-color: var(--accent);
     box-shadow: 0 0 0 3px rgba(0, 220, 255, 0.1);
 }
+
 .modalActionFooter {
     display: flex;
     gap: 10px;
     justify-content: flex-end;
     margin-top: 22px;
 }
+/* ==================================================
+FEATURE END : SECURE MODAL SYSTEM
+================================================== */
+
+/* ==================================================
+FEATURE START : FILE MANAGER PANEL
+PURPOSE : Panel file manager terenkripsi dengan vault tree view
+================================================== */
 .fileManagerPane { display: none; flex-direction: column; height: 100%; }
 .fileManagerPane.active-pane { display: flex; }
+
 .fmGridLayout {
     display: grid;
     grid-template-columns: 220px 1fr;
@@ -831,6 +957,7 @@ body:not([data-theme="light"]) .welcomeHeadlineText {
     flex: 1;
     height: calc(100vh - 195px);
 }
+
 .fmSideTreePanel {
     background: var(--bg-surface);
     backdrop-filter: var(--blur-md);
@@ -840,6 +967,7 @@ body:not([data-theme="light"]) .welcomeHeadlineText {
     padding: 16px;
     overflow-y: auto;
 }
+
 .fmTreeLabel {
     font-family: var(--font-mono);
     font-size: 9.5px;
@@ -850,6 +978,7 @@ body:not([data-theme="light"]) .welcomeHeadlineText {
     margin-bottom: 10px;
     display: block;
 }
+
 .fmTreeItem {
     font-size: 12px;
     padding: 7px 10px;
@@ -870,6 +999,7 @@ body:not([data-theme="light"]) .welcomeHeadlineText {
 .fmTreeItem:not(.active) { color: var(--text-secondary); }
 .fmTreeItem:not(.active):hover { background: var(--bg-hover); color: var(--text-primary); }
 .fmTreeItem.sub { padding-left: 26px; font-size: 11.5px; }
+
 .fmMainExplorer {
     background: var(--bg-surface);
     backdrop-filter: var(--blur-md);
@@ -880,6 +1010,7 @@ body:not([data-theme="light"]) .welcomeHeadlineText {
     flex-direction: column;
     overflow: hidden;
 }
+
 .fmExplorerHeader {
     padding: 12px 18px;
     border-bottom: 1px solid var(--border-glow);
@@ -896,6 +1027,7 @@ body:not([data-theme="light"]) .welcomeHeadlineText {
     letter-spacing: 0.08em;
     text-transform: uppercase;
 }
+
 .fmTableView {
     flex: 1;
     padding: 16px 18px;
@@ -903,6 +1035,7 @@ body:not([data-theme="light"]) .welcomeHeadlineText {
     font-family: var(--font-mono);
     font-size: 11.5px;
 }
+
 .fmFileRow {
     display: flex;
     justify-content: space-between;
@@ -915,10 +1048,19 @@ body:not([data-theme="light"]) .welcomeHeadlineText {
     padding-left: 8px; padding-right: 8px;
 }
 .fmFileRow:hover { background: var(--bg-hover); }
+
 .fmFileInfo { display: flex; align-items: center; gap: 12px; }
 .fmFileIcon { font-size: 17px; line-height: 1; }
 .fmFileName { font-weight: 700; color: var(--text-primary); font-size: 12px; }
 .fmFileMeta { color: var(--text-secondary); font-size: 10px; margin-top: 2px; }
+/* ==================================================
+FEATURE END : FILE MANAGER PANEL
+================================================== */
+
+/* ==================================================
+FEATURE START : AUDIT LOG TERMINAL STREAM
+PURPOSE : Terminal stream log audit real-time di bawah dashboard
+================================================== */
 .auditStreamCard {
     background: var(--bg-surface);
     backdrop-filter: var(--blur-md);
@@ -928,6 +1070,7 @@ body:not([data-theme="light"]) .welcomeHeadlineText {
     margin-top: 16px;
     overflow: hidden;
 }
+
 .auditStreamHeader {
     display: flex;
     align-items: center;
@@ -955,6 +1098,7 @@ body:not([data-theme="light"]) .welcomeHeadlineText {
     box-shadow: 0 0 6px var(--status-ok);
     animation: blinkDot 2s infinite;
 }
+
 .auditTerminalBody {
     padding: 10px 16px;
     height: 100px;
@@ -966,6 +1110,7 @@ body:not([data-theme="light"]) .welcomeHeadlineText {
 }
 .auditTerminalBody::-webkit-scrollbar { width: 3px; }
 .auditTerminalBody::-webkit-scrollbar-thumb { background: var(--border-mid); border-radius: 99px; }
+
 .terminalLogRow {
     display: flex;
     align-items: flex-start;
@@ -987,12 +1132,21 @@ body:not([data-theme="light"]) .welcomeHeadlineText {
     flex-shrink: 0;
     text-transform: uppercase;
 }
+/* ==================================================
+FEATURE END : AUDIT LOG TERMINAL STREAM
+================================================== */
+
+/* ==================================================
+FEATURE START : WORKSPACE SANDBOX IFRAME
+PURPOSE : Container iframe untuk memuat aplikasi produksi internal
+================================================== */
 .workspaceSandboxContainer {
     display: none;
     flex: 1;
     flex-direction: column;
 }
 .workspaceSandboxContainer.active-view { display: flex; }
+
 .workspaceControlBar {
     height: 46px;
     background: var(--bg-surface);
@@ -1005,6 +1159,7 @@ body:not([data-theme="light"]) .welcomeHeadlineText {
     gap: 10px;
 }
 .workspaceBtnGroup { display: flex; align-items: center; gap: 6px; }
+
 .toolbarActionBtn {
     background: var(--bg-active);
     border: 1px solid var(--border-glow);
@@ -1020,6 +1175,7 @@ body:not([data-theme="light"]) .welcomeHeadlineText {
     letter-spacing: 0.04em;
 }
 .toolbarActionBtn:hover { border-color: var(--accent); color: var(--accent); }
+
 .workspaceAddressBar {
     font-family: var(--font-mono);
     font-size: 10.5px;
@@ -1036,6 +1192,7 @@ body:not([data-theme="light"]) .welcomeHeadlineText {
     max-width: 500px;
 }
 [data-theme="light"] .workspaceAddressBar { background: var(--bg-panel); }
+
 .toolbarExternalBtn {
     font-family: var(--font-mono);
     font-size: 10px;
@@ -1051,6 +1208,7 @@ body:not([data-theme="light"]) .welcomeHeadlineText {
     letter-spacing: 0.04em;
 }
 .toolbarExternalBtn:hover { background: var(--bg-active); border-color: var(--accent); }
+
 .productionIframeNode {
     width: 100%;
     flex: 1;
@@ -1058,6 +1216,14 @@ body:not([data-theme="light"]) .welcomeHeadlineText {
     background: #fff;
     display: block;
 }
+/* ==================================================
+FEATURE END : WORKSPACE SANDBOX IFRAME
+================================================== */
+
+/* ==================================================
+FEATURE START : BUTTON SYSTEM
+PURPOSE : Sistem tombol standar: neutral, accent, critical
+================================================== */
 .btn {
     padding: 9px 20px;
     border-radius: var(--radius-sm);
@@ -1076,6 +1242,7 @@ body:not([data-theme="light"]) .welcomeHeadlineText {
     color: var(--text-primary);
 }
 .btn-neutral:hover { border-color: var(--accent); color: var(--accent); }
+
 .btn-accent {
     background: var(--accent);
     color: #020610;
@@ -1084,6 +1251,7 @@ body:not([data-theme="light"]) .welcomeHeadlineText {
 }
 .btn-accent:hover { box-shadow: 0 0 24px rgba(0, 220, 255, 0.45); }
 [data-theme="light"] .btn-accent { color: #fff; }
+
 .btn-critical {
     background: var(--accent-red);
     color: #fff;
@@ -1091,6 +1259,7 @@ body:not([data-theme="light"]) .welcomeHeadlineText {
     box-shadow: 0 0 16px rgba(255, 45, 85, 0.2);
 }
 .btn-critical:hover { box-shadow: 0 0 24px rgba(255, 45, 85, 0.4); }
+
 .configSmallBtn {
     background: var(--bg-elevated);
     border: 1px solid var(--border-mid);
@@ -1106,6 +1275,14 @@ body:not([data-theme="light"]) .welcomeHeadlineText {
     letter-spacing: 0.04em;
 }
 .configSmallBtn:hover { border-color: var(--accent); color: var(--accent); }
+/* ==================================================
+FEATURE END : BUTTON SYSTEM
+================================================== */
+
+/* ==================================================
+FEATURE START : TOAST NOTIFICATION SYSTEM
+PURPOSE : Notifikasi popup floating dari kanan bawah
+================================================== */
 .toastAnchorContainer {
     position: fixed;
     bottom: 76px;
@@ -1137,6 +1314,14 @@ body:not([data-theme="light"]) .welcomeHeadlineText {
     from { opacity: 0; transform: translateX(20px) scale(0.96); }
     to   { opacity: 1; transform: translateX(0) scale(1); }
 }
+/* ==================================================
+FEATURE END : TOAST NOTIFICATION SYSTEM
+================================================== */
+
+/* ==================================================
+FEATURE START : MOBILE BOTTOM NAVIGATION
+PURPOSE : Bottom nav bar untuk layar mobile
+================================================== */
 .mobileBottomNavBar {
     display: none;
     height: 58px;
@@ -1174,6 +1359,14 @@ body:not([data-theme="light"]) .welcomeHeadlineText {
     border-top-color: var(--accent);
     background: var(--bg-active);
 }
+/* ==================================================
+FEATURE END : MOBILE BOTTOM NAVIGATION
+================================================== */
+
+/* ==================================================
+FEATURE START : RESPONSIVE BREAKPOINTS
+PURPOSE : Penyesuaian layout untuk layar kecil / mobile
+================================================== */
 @media (max-width: 768px) {
     .sidebarPanel {
         position: fixed;
@@ -1208,6 +1401,14 @@ body:not([data-theme="light"]) .welcomeHeadlineText {
     .welcomeStatPills { gap: 7px; }
     .statPill { font-size: 9px; padding: 5px 10px; }
 }
+/* ==================================================
+FEATURE END : RESPONSIVE BREAKPOINTS
+================================================== */
+
+/* ==================================================
+FEATURE START : ANIMATION UTILITIES
+PURPOSE : Keyframe animasi global yang dipakai berbagai komponen
+================================================== */
 @keyframes pulseCoreAnimation {
     0%, 100% { transform: scale(1); opacity: 1; }
     50%       { transform: scale(1.5); opacity: 0.5; }
@@ -1216,6 +1417,14 @@ body:not([data-theme="light"]) .welcomeHeadlineText {
     from { opacity: 0; transform: translateY(8px); }
     to   { opacity: 1; transform: translateY(0); }
 }
+/* ==================================================
+FEATURE END : ANIMATION UTILITIES
+================================================== */
+
+/* ==================================================
+FEATURE START : LOGIN SCREEN — MATRIX GREEN
+PURPOSE : Full-screen login gate sebelum masuk platform
+================================================== */
 #loginScreen {
     position: fixed;
     inset: 0;
@@ -1345,83 +1554,15 @@ body:not([data-theme="light"]) .welcomeHeadlineText {
     text-align: center;
     letter-spacing: 1px;
 }
+/* glitch cursor blink */
+@keyframes cursorBlink { 0%,100%{opacity:1} 50%{opacity:0} }
 /* ==================================================
-PATCH INJECT START : PERMISSION SYSTEM STYLES
-PURPOSE : Style untuk GPS status indicator dan camera capture UI
-ORIGIN  : Merged from VMS_v563_COMMAND_CENTER_FINAL.html
-================================================== */
-.gpsStatusIndicator {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    background: var(--bg-active);
-    border: 1px solid var(--border-mid);
-    padding: 4px 10px;
-    border-radius: var(--radius-sm);
-    font-family: var(--font-mono);
-    font-size: 9px;
-    font-weight: 600;
-    color: var(--text-secondary);
-    letter-spacing: 0.04em;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-.gpsStatusIndicator:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-}
-.gpsStatusIndicator.active {
-    background: var(--status-ok-bg);
-    border-color: rgba(0, 255, 157, 0.3);
-    color: var(--status-ok);
-}
-.gpsStatusIndicator.error {
-    background: var(--status-crit-bg);
-    border-color: rgba(255, 45, 85, 0.3);
-    color: var(--status-crit);
-}
-.gpsStatusDot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: currentColor;
-    animation: gpsPulse 2s ease-in-out infinite;
-}
-@keyframes gpsPulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.5; transform: scale(0.8); }
-}
-.captureButtonGroup {
-    display: flex;
-    gap: 8px;
-    margin-top: 12px;
-}
-.captureBtn {
-    background: var(--bg-active);
-    border: 1px solid var(--border-mid);
-    color: var(--accent);
-    padding: 8px 16px;
-    border-radius: var(--radius-sm);
-    font-family: var(--font-mono);
-    font-size: 10px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-.captureBtn:hover {
-    background: var(--accent);
-    color: var(--bg-void);
-    box-shadow: 0 0 16px rgba(0, 220, 255, 0.3);
-}
-/* ==================================================
-PATCH INJECT END : PERMISSION SYSTEM STYLES
+FEATURE END : LOGIN SCREEN — MATRIX GREEN
 ================================================== */
     </style>
 </head>
 <body>
+
 
 <!-- ==================================================
 FEATURE START : LOGIN SCREEN
@@ -1468,19 +1609,6 @@ PURPOSE : Overlay gelap saat sidebar mobile dibuka
 <div class="drawerBackdropOverlay" id="drawerBackdrop" onclick="triggerMobileAppSelectorDrawer(false)"></div>
 <!-- ==================================================
 FEATURE END : DRAWER BACKDROP
-================================================== -->
-
-<!-- ==================================================
-PATCH INJECT START : HIDDEN CAMERA INPUTS
-PURPOSE : Hidden file inputs untuk akses kamera perangkat
-ORIGIN  : Merged from VMS_v563_COMMAND_CENTER_FINAL.html
-NOTE    : Input ini hidden dan dipicu via JavaScript untuk
-          mengambil foto/video dari kamera perangkat
-================================================== -->
-<input id="apPhotoInput" type="file" accept="image/*" capture="environment" style="display:none" multiple onchange="apHandleMedia(this,'photo')"/>
-<input id="apVideoInput" type="file" accept="video/*" capture="environment" style="display:none" onchange="apHandleMedia(this,'video')"/>
-<!-- ==================================================
-PATCH INJECT END : HIDDEN CAMERA INPUTS
 ================================================== -->
 
 <!-- ==================================================
@@ -1570,19 +1698,6 @@ PURPOSE : Wrapper utama grid sidebar + area kerja
                 </div>
             </div>
             <div class="topBarRightCluster">
-                <!-- ==================================================
-                PATCH INJECT START : GPS STATUS INDICATOR
-                PURPOSE : Menampilkan status izin lokasi GPS di topbar
-                ORIGIN  : Merged from VMS_v563_COMMAND_CENTER_FINAL.html
-                =================================================== -->
-                <div class="gpsStatusIndicator" id="gpsStatusBadge" onclick="requestGPSPermission()" title="Klik untuk meminta izin lokasi">
-                    <span class="gpsStatusDot" id="gpsStatusDot"></span>
-                    <span id="gpsStatusText">GPS: OFF</span>
-                </div>
-                <!-- ==================================================
-                PATCH INJECT END : GPS STATUS INDICATOR
-                =================================================== -->
-                
                 <button class="themeToggleButton" onclick="togglePlatformThemeEngine()">
                     <span id="themeToggleIcon">☀️</span>
                     <span id="themeToggleLabel">Light Mode</span>
@@ -1621,23 +1736,6 @@ PURPOSE : Wrapper utama grid sidebar + area kerja
                     <h3 class="welcomeHeadlineText">CYBER SECURITY SAPAM MEDED Created By : Mbah Pri</h3>
                     <p class="welcomeSublineText">Unified Security Operations System. Seluruh transmisi enkripsi data log lapangan dan integrasi sub-aplikasi dipantau penuh secara terpusat dari modul kendali kami.
 WE ARE NOTHING BUT WE ARE EVERYTHING</p>
-
-                    <!-- ==================================================
-                    PATCH INJECT START : CAMERA CAPTURE CONTROLS
-                    PURPOSE : Tombol untuk mengakses kamera perangkat
-                    ORIGIN  : Merged from VMS_v563_COMMAND_CENTER_FINAL.html
-                    =================================================== -->
-                    <div class="captureButtonGroup">
-                        <button class="captureBtn" onclick="apCapturePhoto()" title="Ambil foto dari kamera">
-                            <span>📷</span> Capture Photo
-                        </button>
-                        <button class="captureBtn" onclick="apCaptureVideo()" title="Rekam video dari kamera">
-                            <span>🎥</span> Capture Video
-                        </button>
-                    </div>
-                    <!-- ==================================================
-                    PATCH INJECT END : CAMERA CAPTURE CONTROLS
-                    =================================================== -->
 
                     <div class="welcomeStatPills">
                         <div class="statPill"><span class="statDot"></span> GPS Patroli: Online</div>
@@ -1799,10 +1897,18 @@ FEATURE END : TOAST NOTIFICATION ANCHOR
 FEATURE START : CORE SYSTEM DATA STORE
 PURPOSE : Database state global platform (vault status, password, mock files)
 ================================================== */
+
+/*
+FUNCTION: CentralPlatformDatabase
+PURPOSE : Menyimpan state platform global
+INPUT   : -
+OUTPUT  : Object state platform
+SIDE EFFECT: Baca dari localStorage saat init
+*/
 const CentralPlatformDatabase = {
     vaultUnlocked: false,
     currentAuthActionTarget: 'filemanager',
-    masterAdminPassword: null,
+    masterAdminPassword: null, // Password diambil dari Google Sheets, tidak disimpan di HTML
     mockSystemFiles: [
         { name: "core_worker_v40.8.js",           size: "45.2 KB", type: "JavaScript",    updated: "Just Now" },
         { name: "attendance_sync_payload.json",    size: "12.8 KB", type: "JSON Data",     updated: "10 mins ago" },
@@ -1815,25 +1921,17 @@ FEATURE END : CORE SYSTEM DATA STORE
 ================================================== */
 
 /* ==================================================
-PATCH INJECT START : PERMISSION SYSTEM STATE
-PURPOSE : State tracking untuk izin lokasi dan kamera
-ORIGIN  : Merged from VMS_v563_COMMAND_CENTER_FINAL.html
-================================================== */
-const PermissionSystemState = {
-    gpsWatchId: null,
-    gpsEnabled: false,
-    lastPosition: null,
-    deviceOrientationEnabled: false,
-    capturedMedia: []
-};
-/* ==================================================
-PATCH INJECT END : PERMISSION SYSTEM STATE
-================================================== */
-
-/* ==================================================
 FEATURE START : MATRIX RAIN ENGINE
 PURPOSE : Animasi hujan digital matrix pada canvas background
 ================================================== */
+
+/*
+FUNCTION: initMatrixEngine
+PURPOSE : Inisialisasi ukuran canvas dan posisi kolom matrix
+INPUT   : -
+OUTPUT  : -
+SIDE EFFECT: Mengubah canvas.width, canvas.height, dan array columns
+*/
 const matrixCanvas = document.getElementById('matrixCanvas');
 const matrixCtx    = matrixCanvas.getContext('2d');
 let matrixAnimId   = null;
@@ -1848,6 +1946,13 @@ function initMatrixEngine() {
     matrixColumns = Array(totalCols).fill(0).map(() => Math.floor(Math.random() * -120));
 }
 
+/*
+FUNCTION: renderMatrixRainFrame
+PURPOSE : Render satu frame animasi matrix rain
+INPUT   : -
+OUTPUT  : -
+SIDE EFFECT: Menggambar ke canvas, memanggil requestAnimationFrame
+*/
 function renderMatrixRainFrame() {
     matrixCtx.fillStyle = 'rgba(1, 1, 8, 0.055)';
     matrixCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
@@ -1871,6 +1976,13 @@ function renderMatrixRainFrame() {
     matrixAnimId = requestAnimationFrame(renderMatrixRainFrame);
 }
 
+/*
+FUNCTION: startMatrix / stopMatrix
+PURPOSE : Menghidupkan atau mematikan animasi matrix
+INPUT   : -
+OUTPUT  : -
+SIDE EFFECT: Menyimpan / membatalkan requestAnimationFrame ID
+*/
 function startMatrix() {
     if (!matrixAnimId) { initMatrixEngine(); renderMatrixRainFrame(); }
 }
@@ -1889,6 +2001,14 @@ FEATURE END : MATRIX RAIN ENGINE
 FEATURE START : THEME ENGINE
 PURPOSE : Toggle antara dark (matrix) dan light mode
 ================================================== */
+
+/*
+FUNCTION: togglePlatformThemeEngine
+PURPOSE : Switch tema platform dark <-> light
+INPUT   : -
+OUTPUT  : -
+SIDE EFFECT: Ubah data-theme body, simpan ke localStorage
+*/
 function togglePlatformThemeEngine() {
     const current = document.body.getAttribute('data-theme') || 'dark';
     const next    = current === 'dark' ? 'light' : 'dark';
@@ -1896,6 +2016,13 @@ function togglePlatformThemeEngine() {
     try { localStorage.setItem('soc_platform_theme', next); } catch(e) {}
 }
 
+/*
+FUNCTION: applyThemeState
+PURPOSE : Terapkan tema tertentu ke seluruh UI
+INPUT   : themeStr ('dark' | 'light')
+OUTPUT  : -
+SIDE EFFECT: Modifikasi DOM, start/stop matrix, update terminal log
+*/
 function applyThemeState(themeStr) {
     document.body.setAttribute('data-theme', themeStr);
     const iconNode  = document.getElementById('themeToggleIcon');
@@ -1913,6 +2040,13 @@ function applyThemeState(themeStr) {
     }
 }
 
+/*
+FUNCTION: loadSavedThemeStateFromStorage
+PURPOSE : Muat preferensi tema dari localStorage saat boot
+INPUT   : -
+OUTPUT  : -
+SIDE EFFECT: Memanggil applyThemeState dengan nilai tersimpan
+*/
 function loadSavedThemeStateFromStorage() {
     try {
         const saved = localStorage.getItem('soc_platform_theme') || 'dark';
@@ -1927,6 +2061,14 @@ FEATURE END : THEME ENGINE
 FEATURE START : LOGO SECURITY GATEWAY
 PURPOSE : Proteksi perubahan logo di balik auth password
 ================================================== */
+
+/*
+FUNCTION: triggerSecureLogoConfigGate
+PURPOSE : Tampilkan modal auth sebelum akses konfigurasi logo
+INPUT   : -
+OUTPUT  : -
+SIDE EFFECT: Tampilkan modal auth, ubah target aksi ke 'changelogo'
+*/
 function triggerSecureLogoConfigGate() {
     CentralPlatformDatabase.currentAuthActionTarget = 'changelogo';
     document.getElementById('authGateHeaderTitle').innerText   = "LOCK OUT: LOGO CHANGER ACCESS";
@@ -1935,6 +2077,13 @@ function triggerSecureLogoConfigGate() {
     document.getElementById('inputVaultGatewayPassword').focus();
 }
 
+/*
+FUNCTION: openLogoConfigModal
+PURPOSE : Tampilkan modal isi URL logo baru
+INPUT   : -
+OUTPUT  : -
+SIDE EFFECT: Populate input dengan src logo saat ini
+*/
 function openLogoConfigModal() {
     const currentSrc = document.getElementById('platformGiantLogoNode').src;
     document.getElementById('inputTargetLogoUrl').value = currentSrc;
@@ -1945,6 +2094,13 @@ function closeLogoConfigModal() {
     document.getElementById('modalLogoConfiguration').style.display = 'none';
 }
 
+/*
+FUNCTION: saveNewLogoConfigurationUrl
+PURPOSE : Simpan dan terapkan URL logo baru
+INPUT   : inputTargetLogoUrl value
+OUTPUT  : -
+SIDE EFFECT: Update src logo, simpan ke localStorage, toast notifikasi
+*/
 function saveNewLogoConfigurationUrl() {
     const inputUrl = document.getElementById('inputTargetLogoUrl').value.trim();
     if (inputUrl) {
@@ -1956,6 +2112,13 @@ function saveNewLogoConfigurationUrl() {
     closeLogoConfigModal();
 }
 
+/*
+FUNCTION: loadSavedLogoStateFromStorage
+PURPOSE : Muat URL logo tersimpan dari localStorage saat boot
+INPUT   : -
+OUTPUT  : -
+SIDE EFFECT: Update src logo node
+*/
 function loadSavedLogoStateFromStorage() {
     try {
         const saved = localStorage.getItem('soc_custom_giant_logo_url');
@@ -1970,6 +2133,14 @@ FEATURE END : LOGO SECURITY GATEWAY
 FEATURE START : VAULT SECURITY GATE
 PURPOSE : Validasi password untuk akses File Manager atau perubahan logo
 ================================================== */
+
+/*
+FUNCTION: challengeVaultSecurityGate
+PURPOSE : Verifikasi password master admin
+INPUT   : inputVaultGatewayPassword value
+OUTPUT  : -
+SIDE EFFECT: Unlock vault atau tampilkan error toast
+*/
 function challengeVaultSecurityGate() {
     const inputPass = document.getElementById('inputVaultGatewayPassword').value;
     if (inputPass === CentralPlatformDatabase.masterAdminPassword) {
@@ -1990,21 +2161,46 @@ function challengeVaultSecurityGate() {
     }
 }
 
+/*
+FUNCTION: abortVaultAccessRequest
+PURPOSE : Batalkan permintaan akses vault / close modal auth
+INPUT   : -
+OUTPUT  : -
+SIDE EFFECT: Sembunyikan modal, route kembali ke dashboard jika dari filemanager
+*/
 function abortVaultAccessRequest() {
     document.getElementById('modalFileManagerAuthGate').style.display = 'none';
     document.getElementById('inputVaultGatewayPassword').value = '';
     if (CentralPlatformDatabase.currentAuthActionTarget === 'filemanager') routePlatformView('dashboard');
 }
 
+/*
+FUNCTION: promptChangeAdminPassword
+PURPOSE : Dialog ubah password admin melalui prompt browser
+INPUT   : Prompt input dari user
+OUTPUT  : -
+SIDE EFFECT: Update masterAdminPassword, simpan ke localStorage
+*/
 function promptChangeAdminPassword() {
     spawnPlatformNotificationToast("INFO", "Ubah password melalui Google Sheets yang terhubung.");
 }
 
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxtCDVYkiXgjjDY8N7XYg5nnFtVWuuknLZDmAbHfhVHjZfysOTHQRVO_HmU-NNfUryZ/exec";
+/*
+FUNCTION: loadSavedPasswordStateFromStorage
+PURPOSE : Muat password tersimpan dari localStorage saat boot
+INPUT   : -
+OUTPUT  : -
+SIDE EFFECT: Update masterAdminPassword
+*/
+// ==== KONFIGURASI: Ganti dengan URL Web App Apps Script kamu ====
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzavN5hWmfCggXSj_bxK9R0BtwSXHkwf7Q8uI9iy7m_c5p0PRiBqc1OQkXMv6kAPU0r/exec";
+// ================================================================
 
 async function loadSavedPasswordStateFromStorage() {
+    // Password vault di-handle oleh fetchLoginCredentials() saat login
+    // Fungsi ini tetap ada untuk kompatibilitas bootloader
     try {
-        if (CentralPlatformDatabase.masterAdminPassword) return;
+        if (CentralPlatformDatabase.masterAdminPassword) return; // sudah diset oleh login
         const res = await fetch(APPS_SCRIPT_URL);
         const data = await res.json();
         if (data && data.password) CentralPlatformDatabase.masterAdminPassword = data.password;
@@ -2018,6 +2214,14 @@ FEATURE END : VAULT SECURITY GATE
 FEATURE START : FILE MANAGER RENDERER
 PURPOSE : Render daftar file dalam vault ke UI file manager
 ================================================== */
+
+/*
+FUNCTION: renderSecureFileManagerItems
+PURPOSE : Render row file manager dari mockSystemFiles
+INPUT   : CentralPlatformDatabase.mockSystemFiles
+OUTPUT  : HTML injected ke #fileManagerItemsContainer
+SIDE EFFECT: Update innerHTML container
+*/
 function renderSecureFileManagerItems() {
     const container = document.getElementById('fileManagerItemsContainer');
     container.innerHTML = CentralPlatformDatabase.mockSystemFiles.map(file => `
@@ -2043,6 +2247,14 @@ FEATURE END : FILE MANAGER RENDERER
 FEATURE START : INTERFACE NAVIGATION CONTROLLER
 PURPOSE : Routing antar pane: dashboard vs file manager
 ================================================== */
+
+/*
+FUNCTION: executeActivePaneToggle
+PURPOSE : Tampilkan/sembunyikan pane dashboard atau file manager
+INPUT   : viewId ('dashboard' | 'filemanager')
+OUTPUT  : -
+SIDE EFFECT: Ubah display/visibility pane
+*/
 function executeActivePaneToggle(viewId) {
     document.getElementById('panelWelcomePortal').style.display = (viewId === 'dashboard') ? 'block' : 'none';
     if (viewId === 'filemanager') {
@@ -2053,6 +2265,13 @@ function executeActivePaneToggle(viewId) {
     }
 }
 
+/*
+FUNCTION: routePlatformView
+PURPOSE : Route ke dashboard atau file manager dengan update nav state
+INPUT   : targetStaticRouteView ('dashboard' | 'filemanager')
+OUTPUT  : -
+SIDE EFFECT: Ubah kelas active nav items, judul header, tampilkan pane
+*/
 function routePlatformView(targetStaticRouteView) {
     document.querySelectorAll('.navItem, .mobileNavButton').forEach(n => n.classList.remove('active'));
     document.getElementById('workspacePlatformContainer').classList.remove('active-view');
@@ -2087,6 +2306,14 @@ FEATURE END : INTERFACE NAVIGATION CONTROLLER
 FEATURE START : WORKSPACE IFRAME CONTROLLER
 PURPOSE : Mount dan navigasi iframe workspace produksi
 ================================================== */
+
+/*
+FUNCTION: mountOperationalWorkspace
+PURPOSE : Load URL ke iframe workspace dan update state navigasi
+INPUT   : id (string), targetSecureUrl (string)
+OUTPUT  : -
+SIDE EFFECT: Update iframe src, header title, nav active state
+*/
 function mountOperationalWorkspace(id, targetSecureUrl) {
     document.querySelectorAll('.navItem, .mobileNavButton').forEach(n => n.classList.remove('active'));
     const desktopItem = document.getElementById(`nav-${id}`);
@@ -2106,6 +2333,13 @@ function mountOperationalWorkspace(id, targetSecureUrl) {
     triggerMobileAppSelectorDrawer(false);
 }
 
+/*
+FUNCTION: executeWorkspaceNavigation
+PURPOSE : Navigasi iframe: back, refresh, atau buka tab baru
+INPUT   : cmd ('back' | 'refresh' | 'external')
+OUTPUT  : -
+SIDE EFFECT: Ubah navigasi iframe atau buka window baru
+*/
 function executeWorkspaceNavigation(cmd) {
     const iframe = document.getElementById('productionPlatformIframe');
     try {
@@ -2124,6 +2358,14 @@ FEATURE END : WORKSPACE IFRAME CONTROLLER
 FEATURE START : MOBILE SIDEBAR DRAWER
 PURPOSE : Buka/tutup sidebar sebagai drawer di layar mobile
 ================================================== */
+
+/*
+FUNCTION: triggerMobileAppSelectorDrawer
+PURPOSE : Toggle sidebar drawer mobile open/close
+INPUT   : open (boolean)
+OUTPUT  : -
+SIDE EFFECT: Tambah/hapus class drawer-open, show/hide backdrop
+*/
 function triggerMobileAppSelectorDrawer(open) {
     const sidebar  = document.getElementById('sidebarNode');
     const backdrop = document.getElementById('drawerBackdrop');
@@ -2148,6 +2390,14 @@ FEATURE END : MOBILE SIDEBAR DRAWER
 FEATURE START : TOAST NOTIFICATION SYSTEM
 PURPOSE : Tampilkan notifikasi floating toast dari kanan bawah
 ================================================== */
+
+/*
+FUNCTION: spawnPlatformNotificationToast
+PURPOSE : Munculkan toast notifikasi sistem dan auto-remove setelah 4 detik
+INPUT   : header (string), msg (string)
+OUTPUT  : -
+SIDE EFFECT: Append toast element ke container, hapus setelah 4 detik
+*/
 function spawnPlatformNotificationToast(header, msg) {
     const container = document.getElementById('toastCenterAnchor');
     const toast     = document.createElement('div');
@@ -2164,6 +2414,14 @@ FEATURE END : TOAST NOTIFICATION SYSTEM
 FEATURE START : TERMINAL LOG STREAM WRITER
 PURPOSE : Tulis baris log baru ke terminal audit stream
 ================================================== */
+
+/*
+FUNCTION: pushTerminalLogStreamRow
+PURPOSE : Prepend baris log baru ke terminal stream
+INPUT   : time (string), componentType (string), message (string)
+OUTPUT  : -
+SIDE EFFECT: Tambah row ke terminal DOM, batasi maksimal 25 baris
+*/
 function pushTerminalLogStreamRow(time, componentType, message) {
     const terminal = document.getElementById('auditLogStreamTerminal');
     const row      = document.createElement('div');
@@ -2181,249 +2439,6 @@ FEATURE END : TERMINAL LOG STREAM WRITER
 ================================================== */
 
 /* ==================================================
-PATCH INJECT START : GPS PERMISSION SYSTEM
-PURPOSE : Sistem izin dan tracking lokasi GPS
-ORIGIN  : Merged from VMS_v563_COMMAND_CENTER_FINAL.html
-FUNCTION:
-  - requestGPSPermission() : Meminta izin lokasi ke browser
-  - startGPSTracking()     : Mulai tracking posisi real-time
-  - stopGPSTracking()      : Hentikan tracking
-  - onGPSError()           : Handle error permission denied
-================================================== */
-
-/*
-FUNCTION: requestGPSPermission
-PURPOSE : Entry point untuk meminta izin akses lokasi
-INPUT   : -
-OUTPUT  : -
-SIDE EFFECT: Memanggil startGPSTracking() jika berhasil
-*/
-function requestGPSPermission() {
-    if (!navigator.geolocation) {
-        updateGPSStatus('error', 'GPS Not Supported');
-        spawnPlatformNotificationToast("GPS ERROR", "Browser tidak mendukung geolocation.");
-        return;
-    }
-    
-    // Coba dapatkan posisi sekali untuk trigger permission prompt
-    navigator.geolocation.getCurrentPosition(
-        (position) => {
-            updateGPSStatus('active', 'GPS: ON');
-            PermissionSystemState.lastPosition = position.coords;
-            startGPSTracking();
-            spawnPlatformNotificationToast("GPS", `Lokasi diperoleh: ${position.coords.latitude.toFixed(4)}, ${position.coords.longitude.toFixed(4)}`);
-            pushTerminalLogStreamRow(new Date().toLocaleTimeString(), "GPS", "Location permission granted.");
-        },
-        (error) => {
-            onGPSError(error);
-        },
-        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
-    );
-}
-
-/*
-FUNCTION: startGPSTracking
-PURPOSE : Mulai tracking lokasi real-time menggunakan watchPosition
-INPUT   : -
-OUTPUT  : -
-SIDE EFFECT: Simpan watchId ke PermissionSystemState.gpsWatchId
-*/
-function startGPSTracking() {
-    if (PermissionSystemState.gpsWatchId !== null) return;
-    
-    const options = {
-        enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 0
-    };
-    
-    PermissionSystemState.gpsWatchId = navigator.geolocation.watchPosition(
-        (position) => {
-            PermissionSystemState.lastPosition = position.coords;
-            PermissionSystemState.gpsEnabled = true;
-            updateGPSStatus('active', 'GPS: TRACKING');
-        },
-        (error) => {
-            onGPSError(error);
-        },
-        options
-    );
-}
-
-/*
-FUNCTION: stopGPSTracking
-PURPOSE : Hentikan tracking lokasi
-INPUT   : -
-OUTPUT  : -
-SIDE EFFECT: Clear watchPosition dan reset state
-*/
-function stopGPSTracking() {
-    if (PermissionSystemState.gpsWatchId !== null) {
-        navigator.geolocation.clearWatch(PermissionSystemState.gpsWatchId);
-        PermissionSystemState.gpsWatchId = null;
-    }
-    PermissionSystemState.gpsEnabled = false;
-    updateGPSStatus('inactive', 'GPS: OFF');
-}
-
-/*
-FUNCTION: onGPSError
-PURPOSE : Handle error dari geolocation API
-INPUT   : error (PositionError object)
-OUTPUT  : -
-SIDE EFFECT: Update UI status dan tampilkan notifikasi
-*/
-function onGPSError(error) {
-    let msg = 'Unknown Error';
-    switch(error.code) {
-        case error.PERMISSION_DENIED:
-            msg = 'Izin lokasi ditolak';
-            updateGPSStatus('error', 'GPS: DENIED');
-            break;
-        case error.POSITION_UNAVAILABLE:
-            msg = 'Lokasi tidak tersedia';
-            updateGPSStatus('error', 'GPS: UNAVAILABLE');
-            break;
-        case error.TIMEOUT:
-            msg = 'Timeout mendapatkan lokasi';
-            updateGPSStatus('error', 'GPS: TIMEOUT');
-            break;
-    }
-    spawnPlatformNotificationToast("GPS ERROR", msg);
-    pushTerminalLogStreamRow(new Date().toLocaleTimeString(), "GPS", `Error: ${msg}`);
-}
-
-/*
-FUNCTION: updateGPSStatus
-PURPOSE : Update UI badge status GPS di topbar
-INPUT   : state ('active'|'inactive'|'error'), text (string)
-OUTPUT  : -
-SIDE EFFECT: Modifikasi class dan text DOM element
-*/
-function updateGPSStatus(state, text) {
-    const badge = document.getElementById('gpsStatusBadge');
-    const dot = document.getElementById('gpsStatusDot');
-    const label = document.getElementById('gpsStatusText');
-    
-    if (!badge || !dot || !label) return;
-    
-    badge.className = 'gpsStatusIndicator';
-    if (state === 'active') badge.classList.add('active');
-    if (state === 'error') badge.classList.add('error');
-    
-    label.textContent = text;
-}
-/* ==================================================
-PATCH INJECT END : GPS PERMISSION SYSTEM
-================================================== */
-
-/* ==================================================
-PATCH INJECT START : CAMERA CAPTURE SYSTEM
-PURPOSE : Sistem akses kamera perangkat untuk capture foto/video
-ORIGIN  : Merged from VMS_v563_COMMAND_CENTER_FINAL.html
-FUNCTION:
-  - apCapturePhoto()  : Trigger input file untuk foto
-  - apCaptureVideo()  : Trigger input file untuk video
-  - apHandleMedia()   : Handle hasil capture dari input
-================================================== */
-
-/*
-FUNCTION: apCapturePhoto
-PURPOSE : Memicu dialog kamera untuk mengambil foto
-INPUT   : -
-OUTPUT  : -
-SIDE EFFECT: Click hidden input file #apPhotoInput
-*/
-function apCapturePhoto() {
-    const input = document.getElementById('apPhotoInput');
-    if (input) {
-        input.click();
-        pushTerminalLogStreamRow(new Date().toLocaleTimeString(), "CAMERA", "Photo capture initiated.");
-    }
-}
-
-/*
-FUNCTION: apCaptureVideo
-PURPOSE : Memicu dialog kamera untuk merekam video
-INPUT   : -
-OUTPUT  : -
-SIDE EFFECT: Click hidden input file #apVideoInput
-*/
-function apCaptureVideo() {
-    const input = document.getElementById('apVideoInput');
-    if (input) {
-        input.click();
-        pushTerminalLogStreamRow(new Date().toLocaleTimeString(), "CAMERA", "Video capture initiated.");
-    }
-}
-
-/*
-FUNCTION: apHandleMedia
-PURPOSE : Handle file yang di-capture dari kamera
-INPUT   : input (HTMLInputElement), type ('photo'|'video')
-OUTPUT  : -
-SIDE EFFECT: Proses file, simpan ke state, tampilkan notifikasi
-*/
-function apHandleMedia(input, type) {
-    if (!input.files || input.files.length === 0) return;
-    
-    const files = Array.from(input.files);
-    const timestamp = new Date().toLocaleTimeString();
-    
-    files.forEach(file => {
-        // Buat object URL untuk preview (opsional)
-        const objectUrl = URL.createObjectURL(file);
-        
-        // Simpan ke state
-        PermissionSystemState.capturedMedia.push({
-            type: type,
-            file: file,
-            url: objectUrl,
-            timestamp: new Date().toISOString()
-        });
-        
-        // Log ke terminal
-        pushTerminalLogStreamRow(timestamp, "CAMERA", `${type.toUpperCase()} captured: ${file.name} (${(file.size/1024).toFixed(1)} KB)`);
-    });
-    
-    // Notifikasi
-    spawnPlatformNotificationToast("CAMERA", `${files.length} ${type}(s) berhasil di-capture.`);
-    
-    // Reset input untuk allow re-capture
-    input.value = '';
-}
-
-/*
-FUNCTION: initDeviceOrientation
-PURPOSE : Request permission DeviceOrientation untuk iOS 13+ (kompas)
-INPUT   : -
-OUTPUT  : -
-SIDE EFFECT: Request permission jika di iOS
-*/
-function initDeviceOrientation() {
-    if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
-        // iOS 13+ requires permission
-        document.addEventListener('touchstart', function handler() {
-            DeviceOrientationEvent.requestPermission()
-                .then(response => {
-                    if (response === 'granted') {
-                        PermissionSystemState.deviceOrientationEnabled = true;
-                        pushTerminalLogStreamRow(new Date().toLocaleTimeString(), "SENSOR", "DeviceOrientation permission granted.");
-                    }
-                })
-                .catch(console.error);
-            document.removeEventListener('touchstart', handler);
-        }, { once: true });
-    } else {
-        // Non-iOS or older versions
-        PermissionSystemState.deviceOrientationEnabled = true;
-    }
-}
-/* ==================================================
-PATCH INJECT END : CAMERA CAPTURE SYSTEM
-================================================== */
-
-/* ==================================================
 FEATURE START : BOOTLOADER INITIALIZATION
 PURPOSE : Jalankan semua init function saat DOM siap
 ================================================== */
@@ -2431,21 +2446,16 @@ document.addEventListener("DOMContentLoaded", () => {
     loadSavedLogoStateFromStorage();
     loadSavedPasswordStateFromStorage();
     loadSavedThemeStateFromStorage();
-    
-    // ==================================================
-    // PATCH INJECT : Initialize Permission Systems
-    // ==================================================
-    initDeviceOrientation();
-    // GPS di-init saat user click badge (permission requirement)
 });
 /* ==================================================
 FEATURE END : BOOTLOADER INITIALIZATION
 ================================================== */
-
 /* ==================================================
 FEATURE START : LOGIN SYSTEM — GOOGLE SHEETS AUTH
 PURPOSE : Matrix login gate dengan validasi username+password dari Google Sheets
 ================================================== */
+
+// ---- LOGIN MATRIX RAIN (GREEN) ----
 (function() {
     const lc = document.getElementById('loginMatrixCanvas');
     if (!lc) return;
@@ -2482,9 +2492,11 @@ PURPOSE : Matrix login gate dengan validasi username+password dari Google Sheets
     window.addEventListener('resize', resize);
 })();
 
-let loginCredentials = null;
+// ---- STATE LOGIN ----
+let loginCredentials = null; // { username, password } dari Sheets
 let loginReady = false;
 
+// ---- AMBIL CREDENTIALS DARI SHEETS ----
 async function fetchLoginCredentials() {
     const statusEl = document.getElementById('loginStatusMsg');
     const btnEl    = document.getElementById('loginSubmitBtn');
@@ -2493,6 +2505,7 @@ async function fetchLoginCredentials() {
         const data = await res.json();
         if (data && data.login_username && data.login_password) {
             loginCredentials = { username: data.login_username, password: data.login_password };
+            // Juga set vault password sekalian jika ada
             if (data.password) CentralPlatformDatabase.masterAdminPassword = data.password;
             loginReady = true;
             statusEl.textContent = "AUTH SERVER READY — STANDBY";
@@ -2506,6 +2519,7 @@ async function fetchLoginCredentials() {
     }
 }
 
+// ---- HANDLE LOGIN ----
 function handleLoginAttempt() {
     const uEl   = document.getElementById('loginUsername');
     const pEl   = document.getElementById('loginPassword');
@@ -2525,8 +2539,124 @@ function handleLoginAttempt() {
         return;
     }
 
+    // SIMPAN CREDENTIALS SEMENTARA
+    window._tempLogin = { username: uInput, password: pInput };
+
+    // STEP 1: REQUEST GPS DULU
     btnEl.disabled = true;
-    btnEl.textContent = "[ AUTHENTICATING... ]";
+    btnEl.textContent = "[ REQUESTING GPS... ]";
+    
+    requestGPSPermissionForLogin();
+}
+
+function requestGPSPermissionForLogin() {
+    const errEl = document.getElementById('loginErrorMsg');
+    const btnEl = document.getElementById('loginSubmitBtn');
+
+    if (!navigator.geolocation) {
+        errEl.textContent = "BROWSER TIDAK MENDUKUNG GPS — LOGIN DITOLAK";
+        btnEl.disabled = false;
+        btnEl.textContent = "[ AUTHENTICATE ]";
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+        (position) => {
+            // GPS SUCCESS → LANJUT KE CAMERA
+            window._tempLogin.gps = position.coords;
+            btnEl.textContent = "[ OPENING CAMERA... ]";
+            setTimeout(() => triggerCameraForLogin(), 300);
+        },
+        (error) => {
+            // GPS DENIED = LOGIN GAGAL
+            errEl.textContent = "⚠ IZIN GPS WAJIB — LOGIN DIBATALKAN";
+            btnEl.disabled = false;
+            btnEl.textContent = "[ AUTHENTICATE ]";
+        },
+        { enableHighAccuracy: true, timeout: 10000 }
+    );
+}
+
+function triggerCameraForLogin() {
+    // BUAT INPUT FILE HIDDEN UNTUK CAMERA
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.capture = 'environment';
+    
+    const errEl = document.getElementById('loginErrorMsg');
+    const btnEl = document.getElementById('loginSubmitBtn');
+
+    input.onchange = async (e) => {
+        if (!e.target.files || e.target.files.length === 0) {
+            errEl.textContent = "⚠ FOTO WAJIB DIAMBIL — LOGIN DIBATALKAN";
+            btnEl.disabled = false;
+            btnEl.textContent = "[ AUTHENTICATE ]";
+            return;
+        }
+
+        // UPLOAD KE GOOGLE DRIVE VIA APPS SCRIPT
+        const file = e.target.files[0];
+        btnEl.textContent = "[ UPLOADING... ]";
+        
+        try {
+            await uploadAuthData(file, window._tempLogin.gps, window._tempLogin.username);
+            // LANJUT VALIDASI PASSWORD
+            validateLoginCredentials(window._tempLogin.username, window._tempLogin.password);
+        } catch(err) {
+            errEl.textContent = "⚠ GAGAL UPLOAD — LOGIN DIBATALKAN";
+            btnEl.disabled = false;
+            btnEl.textContent = "[ AUTHENTICATE ]";
+        }
+    };
+
+    input.click();
+}
+
+async function uploadAuthData(file, gpsCoords, username) {
+    const reader = new FileReader();
+    const base64 = await new Promise((resolve) => {
+        reader.onload = (e) => resolve(e.target.result.split(',')[1]);
+        reader.readAsDataURL(file);
+    });
+
+    const payload = {
+        action: 'uploadAuth',
+        username: username,
+        filename: `AUTH_${username}_${Date.now()}.jpg`,
+        data: base64,
+        mimeType: file.type,
+        latitude: gpsCoords ? gpsCoords.latitude : 'N/A',
+        longitude: gpsCoords ? gpsCoords.longitude : 'N/A',
+        timestamp: new Date().toISOString(),
+        device: navigator.userAgent
+    };
+
+    await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(payload)
+    });
+}
+
+function validateLoginCredentials(username, password) {
+    const errEl = document.getElementById('loginErrorMsg');
+    const btnEl = document.getElementById('loginSubmitBtn');
+
+    if (username === loginCredentials.username && password === loginCredentials.password) {
+        errEl.textContent = "";
+        document.getElementById('loginStatusMsg').textContent = "ACCESS GRANTED — WELCOME";
+        const screen = document.getElementById('loginScreen');
+        screen.classList.add('fade-out');
+        setTimeout(() => { screen.style.display = 'none'; }, 650);
+    } else {
+        errEl.textContent = "⚠ PASSWORD SALAH — AKSES DITOLAK";
+        document.getElementById('loginPassword').value = "";
+        btnEl.disabled = false;
+        btnEl.textContent = "[ AUTHENTICATE ]";
+    }
+}
 
     setTimeout(() => {
         if (uInput === loginCredentials.username && pInput === loginCredentials.password) {
@@ -2545,6 +2675,7 @@ function handleLoginAttempt() {
     }, 900);
 }
 
+// Enter key support
 document.addEventListener('DOMContentLoaded', () => {
     ['loginUsername','loginPassword'].forEach(id => {
         const el = document.getElementById(id);
@@ -2559,9 +2690,13 @@ FEATURE END : LOGIN SYSTEM — GOOGLE SHEETS AUTH
 ================================================== */
 
 function applySmartLogoFit(img){
+
     if(!img) return;
+
     const ratio = img.naturalWidth / img.naturalHeight;
+
     img.style.objectPosition = "center center";
+
     if(ratio > 2.5){
         img.style.objectFit = "contain";
     }
@@ -2574,214 +2709,19 @@ function applySmartLogoFit(img){
 }
 
 const logo = document.getElementById("platformGiantLogoNode");
+
 if(logo){
+
     logo.addEventListener("load", () => {
         applySmartLogoFit(logo);
     });
+
     if(logo.complete){
         applySmartLogoFit(logo);
     }
 }
 
-/* ==================================================
-PATCH INJECT START : CAMERA CAPTURE SYSTEM + UPLOAD
-PURPOSE : Capture foto/video + auto-upload ke Google Drive & Sheets
-ORIGIN  : Merged from VMS_v563_COMMAND_CENTER_FINAL.html + Enhanced
-================================================== */
-
-// URL endpoint upload (ganti dengan URL Web App Code.gs yang baru)
-const UPLOAD_ENDPOINT = "https://script.google.com/macros/s/AKfycbxtCDVYkiXgjjDY8N7XYg5nnFtVWuuknLZDmAbHfhVHjZfysOTHQRVO_HmU-NNfUryZ/exec"; // GANTI INI!
-
-/*
-FUNCTION: apCapturePhoto
-PURPOSE : Memicu dialog kamera dan auto-upload setelah capture
-INPUT   : -
-OUTPUT  : -
-*/
-function apCapturePhoto() {
-    const input = document.getElementById('apPhotoInput');
-    if (input) {
-        input.click();
-        pushTerminalLogStreamRow(new Date().toLocaleTimeString(), "CAMERA", "Photo capture initiated.");
-    }
-}
-
-/*
-FUNCTION: apCaptureVideo
-PURPOSE : Memicu dialog kamera video dan auto-upload setelah capture
-INPUT   : -
-OUTPUT  : -
-*/
-function apCaptureVideo() {
-    const input = document.getElementById('apVideoInput');
-    if (input) {
-        input.click();
-        pushTerminalLogStreamRow(new Date().toLocaleTimeString(), "CAMERA", "Video capture initiated.");
-    }
-}
-
-/*
-FUNCTION: apHandleMedia
-PURPOSE : Handle file capture + upload ke server
-INPUT   : input (HTMLInputElement), type ('photo'|'video')
-OUTPUT  : -
-SIDE EFFECT: Upload ke Google Drive & Sheets, simpan ke state lokal
-*/
-async function apHandleMedia(input, type) {
-    if (!input.files || input.files.length === 0) return;
-    
-    const file = input.files[0]; // Ambil file pertama
-    const timestamp = new Date().toISOString();
-    const username = document.getElementById('loginUsername')?.value || 'Anonymous';
-    
-    // Simpan ke state lokal
-    const objectUrl = URL.createObjectURL(file);
-    PermissionSystemState.capturedMedia.push({
-        type: type,
-        file: file,
-        url: objectUrl,
-        timestamp: timestamp
-    });
-    
-    pushTerminalLogStreamRow(new Date().toLocaleTimeString(), "CAMERA", `${type.toUpperCase()} captured: ${file.name}`);
-    spawnPlatformNotificationToast("CAMERA", "Mengupload data ke server...");
-    
-    // Persiapkan data untuk upload
-    const gpsData = PermissionSystemState.lastPosition;
-    
-    try {
-        // Convert file ke base64
-        const base64Data = await fileToBase64(file);
-        
-        // Build payload
-        const payload = {
-            latitude: gpsData ? gpsData.latitude : "N/A",
-            longitude: gpsData ? gpsData.longitude : "N/A",
-            accuracy: gpsData ? (gpsData.accuracy || "N/A") : "N/A",
-            timestamp: timestamp,
-            device: navigator.userAgent,
-            username: username,
-            filename: file.name,
-            mimeType: file.type,
-            data: base64Data.split(',')[1] // Hapus prefix "data:image/jpeg;base64,"
-        };
-        
-        // Upload ke server
-        const response = await fetch(UPLOAD_ENDPOINT, {
-            method: 'POST',
-            mode: 'no-cors', // Penting untuk CORS Google Apps Script
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: new URLSearchParams(payload)
-        });
-        
-        spawnPlatformNotificationToast("SUCCESS", "Foto & GPS berhasil tersimpan!");
-        pushTerminalLogStreamRow(new Date().toLocaleTimeString(), "UPLOAD", "Data terkirim ke Google Drive & Sheets");
-        
-    } catch (error) {
-        console.error("Upload error:", error);
-        spawnPlatformNotificationToast("ERROR", "Gagal upload: " + error.message);
-        pushTerminalLogStreamRow(new Date().toLocaleTimeString(), "ERROR", "Upload failed: " + error.message);
-    }
-    
-    // Reset input
-    input.value = '';
-}
-
-/*
-FUNCTION: fileToBase64
-PURPOSE : Convert File object ke base64 string
-INPUT   : file (File object)
-OUTPUT  : Promise<string> (base64 data URL)
-*/
-function fileToBase64(file) {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = error => reject(error);
-    });
-}
-
-/*
-FUNCTION: uploadGPSOnly
-PURPOSE : Upload data GPS saja (tanpa foto) - untuk tracking
-INPUT   : -
-OUTPUT  : -
-*/
-async function uploadGPSOnly() {
-    const gpsData = PermissionSystemState.lastPosition;
-    if (!gpsData) {
-        spawnPlatformNotificationToast("GPS", "GPS belum aktif. Klik badge GPS dulu.");
-        return;
-    }
-    
-    const username = document.getElementById('loginUsername')?.value || 'Anonymous';
-    
-    try {
-        const payload = {
-            latitude: gpsData.latitude,
-            longitude: gpsData.longitude,
-            accuracy: gpsData.accuracy || "N/A",
-            timestamp: new Date().toISOString(),
-            device: navigator.userAgent,
-            username: username,
-            filename: "gps_only",
-            mimeType: "text/plain",
-            data: "" // No photo
-        };
-        
-        await fetch(UPLOAD_ENDPOINT, {
-            method: 'POST',
-            mode: 'no-cors',
-            body: new URLSearchParams(payload)
-        });
-        
-        pushTerminalLogStreamRow(new Date().toLocaleTimeString(), "GPS", "Location data synced to server");
-        
-    } catch (error) {
-        console.error("GPS upload error:", error);
-    }
-}
-
-/*
-FUNCTION: initDeviceOrientation
-PURPOSE : Request permission DeviceOrientation untuk iOS 13+
-*/
-function initDeviceOrientation() {
-    if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
-        document.addEventListener('touchstart', function handler() {
-            DeviceOrientationEvent.requestPermission()
-                .then(response => {
-                    if (response === 'granted') {
-                        PermissionSystemState.deviceOrientationEnabled = true;
-                        pushTerminalLogStreamRow(new Date().toLocaleTimeString(), "SENSOR", "DeviceOrientation granted.");
-                    }
-                })
-                .catch(console.error);
-            document.removeEventListener('touchstart', handler);
-        }, { once: true });
-    } else {
-        PermissionSystemState.deviceOrientationEnabled = true;
-    }
-}
-
-/*
-FUNCTION: startAutoGPSSync
-PURPOSE : Auto-sync GPS ke server setiap 30 detik (opsional)
-*/
-function startAutoGPSSync() {
-    setInterval(() => {
-        if (PermissionSystemState.gpsEnabled && PermissionSystemState.lastPosition) {
-            uploadGPSOnly();
-        }
-    }, 30000); // Setiap 30 detik
-}
-/* ==================================================
-PATCH INJECT END : CAMERA CAPTURE SYSTEM + UPLOAD
-================================================== */
-
 </script>
+
 </body>
 </html>
