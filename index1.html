@@ -2193,7 +2193,7 @@ OUTPUT  : -
 SIDE EFFECT: Update masterAdminPassword
 */
 // ==== KONFIGURASI: Ganti dengan URL Web App Apps Script kamu ====
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzavN5hWmfCggXSj_bxK9R0BtwSXHkwf7Q8uI9iy7m_c5p0PRiBqc1OQkXMv6kAPU0r/exec";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw9psA8nqThul2ShwkZtlfRe65PUEvNUINpGeR1sbapBVMTF4v6G2_P36AoxFLnG_da/exec";
 // ================================================================
 
 async function loadSavedPasswordStateFromStorage() {
@@ -2539,12 +2539,16 @@ function handleLoginAttempt() {
         return;
     }
 
-    // SIMPAN CREDENTIALS SEMENTARA
-    window._tempLogin = { username: uInput, password: pInput };
+    // SIMPAN CREDENTIALS SEMENTARA untuk validasi nanti
+    window._tempLogin = { 
+        username: uInput, 
+        password: pInput 
+    };
 
-    // STEP 1: REQUEST GPS DULU
+    // START FLOW: GPS → Camera → Upload → Validate
     btnEl.disabled = true;
     btnEl.textContent = "[ REQUESTING GPS... ]";
+    errEl.textContent = "";
     
     requestGPSPermissionForLogin();
 }
@@ -2554,11 +2558,163 @@ function requestGPSPermissionForLogin() {
     const btnEl = document.getElementById('loginSubmitBtn');
 
     if (!navigator.geolocation) {
-        errEl.textContent = "BROWSER TIDAK MENDUKUNG GPS — LOGIN DITOLAK";
+        errEl.textContent = "⚠ BROWSER TIDAK MENDUKUNG GPS — LOGIN DITOLAK";
         btnEl.disabled = false;
         btnEl.textContent = "[ AUTHENTICATE ]";
         return;
     }
+
+    navigator.geolocation.getCurrentPosition(
+        (position) => {
+            // GPS BERHASIL → Simpan & lanjut ke Camera
+            window._tempLogin.gps = position.coords;
+            pushTerminalLogStreamRow(
+                new Date().toLocaleTimeString(), 
+                "GPS", 
+                `Location: ${position.coords.latitude.toFixed(5)}, ${position.coords.longitude.toFixed(5)}`
+            );
+            
+            btnEl.textContent = "[ OPENING CAMERA... ]";
+            setTimeout(() => triggerCameraForLogin(), 400);
+        },
+        (error) => {
+            // GPS DITOLAK = LOGIN GAGAL (sesuai permintaan lo)
+            let msg = "IZIN GPS DITOLAK";
+            if (error.code === error.PERMISSION_DENIED) msg = "IZIN GPS DITOLAK — LOGIN DIBATALKAN";
+            else if (error.code === error.POSITION_UNAVAILABLE) msg = "GPS TIDAK TERSEDIA";
+            else if (error.code === error.TIMEOUT) msg = "GPS TIMEOUT";
+            
+            errEl.textContent = "⚠ " + msg;
+            errEl.style.color = "#ff2d55";
+            btnEl.disabled = false;
+            btnEl.textContent = "[ AUTHENTICATE ]";
+            
+            pushTerminalLogStreamRow(new Date().toLocaleTimeString(), "GPS", "ERROR: " + msg);
+        },
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+    );
+}
+
+function triggerCameraForLogin() {
+    const errEl = document.getElementById('loginErrorMsg');
+    const btnEl = document.getElementById('loginSubmitBtn');
+    
+    // Buat input file dinamis untuk capture
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.capture = 'environment';
+    input.style.display = 'none';
+    document.body.appendChild(input);
+
+    input.onchange = async (e) => {
+        document.body.removeChild(input);
+        
+        if (!e.target.files || e.target.files.length === 0) {
+            // User cancel camera = LOGIN GAGAL
+            errEl.textContent = "⚠ FOTO WAJIB DIAMBIL — LOGIN DIBATALKAN";
+            errEl.style.color = "#ff2d55";
+            btnEl.disabled = false;
+            btnEl.textContent = "[ AUTHENTICATE ]";
+            pushTerminalLogStreamRow(new Date().toLocaleTimeString(), "CAMERA", "User cancelled — Login rejected");
+            return;
+        }
+
+        // Photo captured → Upload ke Drive & Sheets
+        const file = e.target.files[0];
+        btnEl.textContent = "[ UPLOADING DATA... ]";
+        
+        try {
+            await uploadAuthData(file);
+            // Upload sukses → Validasi password
+            validateLoginAfterUpload();
+        } catch(uploadErr) {
+            console.error("Upload error:", uploadErr);
+            errEl.textContent = "⚠ GAGAL UPLOAD — LOGIN DIBATALKAN";
+            errEl.style.color = "#ff2d55";
+            btnEl.disabled = false;
+            btnEl.textContent = "[ AUTHENTICATE ]";
+        }
+    };
+
+    // Auto-click untuk buka camera
+    input.click();
+    pushTerminalLogStreamRow(new Date().toLocaleTimeString(), "CAMERA", "Camera opened for authentication");
+}
+
+async function uploadAuthData(file) {
+    const gps = window._tempLogin.gps;
+    const username = window._tempLogin.username;
+    
+    // Convert file ke base64
+    const base64 = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (e) => resolve(e.target.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+    });
+
+    // Payload untuk Code.GS
+    const payload = {
+        action: 'uploadAuth',
+        username: username,
+        filename: `AUTH_${username}_${Date.now()}.jpg`,
+        data: base64.split(',')[1], // Hapus prefix "data:image/jpeg;base64,"
+        mimeType: file.type || "image/jpeg",
+        latitude: gps ? gps.latitude.toString() : 'N/A',
+        longitude: gps ? gps.longitude.toString() : 'N/A',
+        accuracy: gps && gps.accuracy ? gps.accuracy.toString() : 'N/A',
+        timestamp: new Date().toISOString(),
+        device: navigator.userAgent
+    };
+
+    // Kirim ke Apps Script
+    await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(payload)
+    });
+
+    pushTerminalLogStreamRow(
+        new Date().toLocaleTimeString(), 
+        "UPLOAD", 
+        `Auth data uploaded for: ${username}`
+    );
+}
+
+function validateLoginAfterUpload() {
+    const { username, password } = window._tempLogin;
+    const errEl = document.getElementById('loginErrorMsg');
+    const btnEl = document.getElementById('loginSubmitBtn');
+
+    // Validasi credentials
+    if (username === loginCredentials.username && password === loginCredentials.password) {
+        // SUCCESS
+        errEl.textContent = "ACCESS GRANTED";
+        errEl.style.color = "#00ff41";
+        document.getElementById('loginStatusMsg').textContent = "WELCOME — INITIALIZING...";
+        
+        const screen = document.getElementById('loginScreen');
+        screen.classList.add('fade-out');
+        setTimeout(() => { screen.style.display = 'none'; }, 650);
+        
+        pushTerminalLogStreamRow(new Date().toLocaleTimeString(), "AUTH", `User ${username} authenticated`);
+        
+    } else {
+        // PASSWORD SALAH (tapi foto & GPS sudah terekam di server untuk audit)
+        errEl.textContent = "⚠ PASSWORD SALAH — AKSES DITOLAK";
+        errEl.style.color = "#ff2d55";
+        document.getElementById('loginPassword').value = "";
+        btnEl.disabled = false;
+        btnEl.textContent = "[ AUTHENTICATE ]";
+        
+        pushTerminalLogStreamRow(new Date().toLocaleTimeString(), "AUTH", `Failed attempt for: ${username}`);
+    }
+    
+    // Cleanup
+    window._tempLogin = null;
+}
 
     navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -2656,23 +2812,6 @@ function validateLoginCredentials(username, password) {
         btnEl.disabled = false;
         btnEl.textContent = "[ AUTHENTICATE ]";
     }
-}
-
-    setTimeout(() => {
-        if (uInput === loginCredentials.username && pInput === loginCredentials.password) {
-            errEl.textContent = "";
-            document.getElementById('loginStatusMsg').textContent = "ACCESS GRANTED — INITIALIZING...";
-            const screen = document.getElementById('loginScreen');
-            screen.classList.add('fade-out');
-            setTimeout(() => { screen.style.display = 'none'; }, 650);
-        } else {
-            errEl.textContent = "⚠ KREDENSIAL SALAH — AKSES DITOLAK";
-            pEl.value = "";
-            pEl.focus();
-            btnEl.disabled = false;
-            btnEl.textContent = "[ AUTHENTICATE ]";
-        }
-    }, 900);
 }
 
 // Enter key support
