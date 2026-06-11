@@ -1409,9 +1409,177 @@ PURPOSE : Keyframe animasi global yang dipakai berbagai komponen
 FEATURE END : ANIMATION UTILITIES
 ================================================== */
 
+/* ==================================================
+FEATURE START : LOGIN SCREEN — MATRIX GREEN
+PURPOSE : Full-screen login gate sebelum masuk platform
+================================================== */
+#loginScreen {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000;
+    transition: opacity 0.6s ease;
+}
+#loginScreen.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+#loginMatrixCanvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+.loginBox {
+    position: relative;
+    z-index: 10;
+    width: 380px;
+    max-width: 92vw;
+    background: rgba(0, 10, 0, 0.82);
+    border: 1px solid #00ff41;
+    border-radius: 10px;
+    box-shadow: 0 0 40px rgba(0,255,65,0.25), 0 0 80px rgba(0,255,65,0.08);
+    padding: 40px 36px 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    backdrop-filter: blur(12px);
+}
+.loginLogo {
+    text-align: center;
+    margin-bottom: 4px;
+}
+.loginLogo .loginTitle {
+    font-family: 'Orbitron', monospace;
+    font-size: 14px;
+    font-weight: 700;
+    color: #00ff41;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-shadow: 0 0 12px #00ff41;
+}
+.loginLogo .loginSubtitle {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #33aa55;
+    margin-top: 4px;
+    letter-spacing: 2px;
+}
+.loginScanLine {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #00ff41, transparent);
+    opacity: 0.5;
+}
+.loginFieldWrap {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.loginFieldWrap label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #00cc33;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+.loginFieldWrap input {
+    background: rgba(0,20,0,0.7);
+    border: 1px solid #00aa2a;
+    border-radius: 5px;
+    color: #00ff41;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    padding: 10px 14px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    caret-color: #00ff41;
+}
+.loginFieldWrap input::placeholder { color: #1a5a25; }
+.loginFieldWrap input:focus {
+    border-color: #00ff41;
+    box-shadow: 0 0 10px rgba(0,255,65,0.3);
+}
+.loginBtn {
+    background: transparent;
+    border: 1px solid #00ff41;
+    color: #00ff41;
+    font-family: 'Orbitron', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    padding: 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s;
+    text-transform: uppercase;
+    margin-top: 4px;
+}
+.loginBtn:hover {
+    background: rgba(0,255,65,0.12);
+    box-shadow: 0 0 18px rgba(0,255,65,0.35);
+}
+.loginBtn:active { transform: scale(0.98); }
+.loginBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+.loginError {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: #ff2d55;
+    text-align: center;
+    min-height: 16px;
+    letter-spacing: 1px;
+}
+.loginStatus {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #33aa55;
+    text-align: center;
+    letter-spacing: 1px;
+}
+/* glitch cursor blink */
+@keyframes cursorBlink { 0%,100%{opacity:1} 50%{opacity:0} }
+/* ==================================================
+FEATURE END : LOGIN SCREEN — MATRIX GREEN
+================================================== */
     </style>
 </head>
 <body>
+
+
+<!-- ==================================================
+FEATURE START : LOGIN SCREEN
+PURPOSE : Gate login Matrix sebelum akses platform
+================================================== -->
+<div id="loginScreen">
+    <canvas id="loginMatrixCanvas"></canvas>
+    <div class="loginBox">
+        <div class="loginLogo">
+            <div class="loginTitle">⬡ CRISIS CORE CONTROL</div>
+            <div class="loginSubtitle">SECURE ACCESS TERMINAL</div>
+        </div>
+        <div class="loginScanLine"></div>
+        <div class="loginFieldWrap">
+            <label>// USERNAME</label>
+            <input type="text" id="loginUsername" placeholder="enter_username" autocomplete="off" />
+        </div>
+        <div class="loginFieldWrap">
+            <label>// PASSWORD</label>
+            <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="off" />
+        </div>
+        <div class="loginError" id="loginErrorMsg"></div>
+        <button class="loginBtn" id="loginSubmitBtn" onclick="handleLoginAttempt()">[ AUTHENTICATE ]</button>
+        <div class="loginStatus" id="loginStatusMsg">CONNECTING TO AUTH SERVER...</div>
+    </div>
+</div>
+<!-- ==================================================
+FEATURE END : LOGIN SCREEN
+================================================== -->
 
 <!-- ==================================================
 FEATURE START : MATRIX RAIN CANVAS
@@ -2013,19 +2181,18 @@ OUTPUT  : -
 SIDE EFFECT: Update masterAdminPassword
 */
 // ==== KONFIGURASI: Ganti dengan URL Web App Apps Script kamu ====
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyx10Vbhg6AZsJGPKGTJOWNjOeW82DFI8FJ-GVQYhYgE4OptT1b-opt51ANqyCQDIau/exec";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzavN5hWmfCggXSj_bxK9R0BtwSXHkwf7Q8uI9iy7m_c5p0PRiBqc1OQkXMv6kAPU0r/exec";
 // ================================================================
 
 async function loadSavedPasswordStateFromStorage() {
+    // Password vault di-handle oleh fetchLoginCredentials() saat login
+    // Fungsi ini tetap ada untuk kompatibilitas bootloader
     try {
+        if (CentralPlatformDatabase.masterAdminPassword) return; // sudah diset oleh login
         const res = await fetch(APPS_SCRIPT_URL);
         const data = await res.json();
-        if (data && data.password) {
-            CentralPlatformDatabase.masterAdminPassword = data.password;
-        }
-    } catch(e) {
-        console.warn("Gagal mengambil password dari Google Sheets:", e);
-    }
+        if (data && data.password) CentralPlatformDatabase.masterAdminPassword = data.password;
+    } catch(e) { console.warn("Vault password fetch:", e); }
 }
 /* ==================================================
 FEATURE END : VAULT SECURITY GATE
@@ -2270,6 +2437,128 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 /* ==================================================
 FEATURE END : BOOTLOADER INITIALIZATION
+================================================== */
+/* ==================================================
+FEATURE START : LOGIN SYSTEM — GOOGLE SHEETS AUTH
+PURPOSE : Matrix login gate dengan validasi username+password dari Google Sheets
+================================================== */
+
+// ---- LOGIN MATRIX RAIN (GREEN) ----
+(function() {
+    const lc = document.getElementById('loginMatrixCanvas');
+    if (!lc) return;
+    const ctx = lc.getContext('2d');
+    let cols = [], anim;
+    const FS = 14;
+    const CHARS = "アイウエオカキクケコサシスセソタチツテトナニヌネノABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*";
+
+    function resize() {
+        lc.width  = window.innerWidth;
+        lc.height = window.innerHeight;
+        cols = Array(Math.floor(lc.width / FS) + 1).fill(0).map(() => Math.floor(Math.random() * -100));
+    }
+    function draw() {
+        ctx.fillStyle = 'rgba(0,0,0,0.05)';
+        ctx.fillRect(0, 0, lc.width, lc.height);
+        ctx.font = FS + 'px monospace';
+        for (let i = 0; i < cols.length; i++) {
+            const char = CHARS[Math.floor(Math.random() * CHARS.length)];
+            const x = i * FS;
+            const y = cols[i] * FS;
+            const r = Math.random();
+            if (r > 0.98)       ctx.fillStyle = '#ffffff';
+            else if (r > 0.92)  ctx.fillStyle = '#80ff80';
+            else                ctx.fillStyle = '#00ff41';
+            ctx.fillText(char, x, y);
+            if (y > lc.height && Math.random() > 0.975) cols[i] = 0;
+            cols[i]++;
+        }
+        anim = requestAnimationFrame(draw);
+    }
+    resize();
+    draw();
+    window.addEventListener('resize', resize);
+})();
+
+// ---- STATE LOGIN ----
+let loginCredentials = null; // { username, password } dari Sheets
+let loginReady = false;
+
+// ---- AMBIL CREDENTIALS DARI SHEETS ----
+async function fetchLoginCredentials() {
+    const statusEl = document.getElementById('loginStatusMsg');
+    const btnEl    = document.getElementById('loginSubmitBtn');
+    try {
+        const res  = await fetch(APPS_SCRIPT_URL);
+        const data = await res.json();
+        if (data && data.login_username && data.login_password) {
+            loginCredentials = { username: data.login_username, password: data.login_password };
+            // Juga set vault password sekalian jika ada
+            if (data.password) CentralPlatformDatabase.masterAdminPassword = data.password;
+            loginReady = true;
+            statusEl.textContent = "AUTH SERVER READY — STANDBY";
+            btnEl.disabled = false;
+        } else {
+            statusEl.textContent = "CONFIG ERROR: login_username/login_password tidak ditemukan di Sheets";
+        }
+    } catch(e) {
+        statusEl.textContent = "GAGAL KONEK KE AUTH SERVER — CEK JARINGAN";
+        console.warn("Login fetch error:", e);
+    }
+}
+
+// ---- HANDLE LOGIN ----
+function handleLoginAttempt() {
+    const uEl   = document.getElementById('loginUsername');
+    const pEl   = document.getElementById('loginPassword');
+    const errEl = document.getElementById('loginErrorMsg');
+    const btnEl = document.getElementById('loginSubmitBtn');
+
+    if (!loginReady) {
+        errEl.textContent = "AUTH SERVER BELUM SIAP. TUNGGU...";
+        return;
+    }
+
+    const uInput = uEl.value.trim();
+    const pInput = pEl.value;
+
+    if (!uInput || !pInput) {
+        errEl.textContent = "USERNAME / PASSWORD TIDAK BOLEH KOSONG";
+        return;
+    }
+
+    btnEl.disabled = true;
+    btnEl.textContent = "[ AUTHENTICATING... ]";
+
+    setTimeout(() => {
+        if (uInput === loginCredentials.username && pInput === loginCredentials.password) {
+            errEl.textContent = "";
+            document.getElementById('loginStatusMsg').textContent = "ACCESS GRANTED — INITIALIZING...";
+            const screen = document.getElementById('loginScreen');
+            screen.classList.add('fade-out');
+            setTimeout(() => { screen.style.display = 'none'; }, 650);
+        } else {
+            errEl.textContent = "⚠ KREDENSIAL SALAH — AKSES DITOLAK";
+            pEl.value = "";
+            pEl.focus();
+            btnEl.disabled = false;
+            btnEl.textContent = "[ AUTHENTICATE ]";
+        }
+    }, 900);
+}
+
+// Enter key support
+document.addEventListener('DOMContentLoaded', () => {
+    ['loginUsername','loginPassword'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('keydown', e => { if (e.key === 'Enter') handleLoginAttempt(); });
+    });
+    document.getElementById('loginSubmitBtn').disabled = true;
+    fetchLoginCredentials();
+});
+
+/* ==================================================
+FEATURE END : LOGIN SYSTEM — GOOGLE SHEETS AUTH
 ================================================== */
 
 </script>
