@@ -26,9 +26,9 @@ PURPOSE : Sistem variabel global warna, tipografi, efek visual untuk seluruh pla
     /* DARK MODE — CYBER QUANTUM PALETTE */
     --bg-void:       #010108;
     --bg-base:       #03040e;
-    --bg-surface:    rgba(6, 10, 28, 0.85);
+    --bg-surface:    #060a1c;
     --bg-panel:      #080d1f;
-    --bg-elevated:   rgba(12, 20, 45, 0.9);
+    --bg-elevated:   #0c142d;
     --bg-active:     rgba(0, 220, 255, 0.08);
     --bg-hover:      rgba(0, 220, 255, 0.05);
 
@@ -56,9 +56,9 @@ PURPOSE : Sistem variabel global warna, tipografi, efek visual untuk seluruh pla
     --font-mono:     'JetBrains Mono', monospace;
     --font-body:     'Inter', -apple-system, sans-serif;
 
-    --blur-sm:       blur(8px);
-    --blur-md:       blur(16px);
-    --blur-lg:       blur(28px);
+    --blur-sm:       blur(0px);
+    --blur-md:       blur(0px);
+    --blur-lg:       blur(0px);
     --ease-spring:   cubic-bezier(0.16, 1, 0.3, 1);
     --ease-smooth:   cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -181,8 +181,6 @@ PURPOSE : Panel navigasi kiri premium glassmorphism
 .sidebarPanel {
     width: var(--sidebar-w);
     background: var(--bg-surface);
-    backdrop-filter: var(--blur-lg);
-    -webkit-backdrop-filter: var(--blur-lg);
     border-right: 1px solid var(--border-glow);
     display: flex;
     flex-direction: column;
@@ -284,7 +282,6 @@ PURPOSE : Panel navigasi kiri premium glassmorphism
     inset: 0;
     background: rgba(0, 0, 0, 0.6);
     z-index: 45;
-    backdrop-filter: blur(4px);
 }
 
 .sidebarNavScroll {
@@ -415,8 +412,6 @@ PURPOSE : Header bar atas dengan judul, tema toggle, status sistem
 .topPlatformBar {
     height: var(--topbar-h);
     background: var(--bg-surface);
-    backdrop-filter: var(--blur-md);
-    -webkit-backdrop-filter: var(--blur-md);
     border-bottom: 1px solid var(--border-glow);
     display: flex;
     align-items: center;
@@ -562,8 +557,6 @@ PURPOSE : Halaman selamat datang premium dengan efek visual berlapis
     align-items: center;
     justify-content: center;
     background: var(--bg-surface);
-    backdrop-filter: var(--blur-lg);
-    -webkit-backdrop-filter: var(--blur-lg);
     border: 1px solid var(--border-glow);
     border-radius: var(--radius-xl);
     height: calc(100vh - 220px);
@@ -792,7 +785,6 @@ body:not([data-theme="light"]) .welcomeHeadlineText {
 }
 .configActionButton {
     background: rgba(1, 3, 10, 0.7);
-    backdrop-filter: blur(8px);
     border: 1px solid var(--border-mid);
     color: var(--text-primary);
     padding: 7px 16px;
@@ -824,8 +816,6 @@ PURPOSE : Modal overlay terproteksi untuk auth gateway dan konfigurasi
     position: fixed;
     inset: 0;
     background: rgba(1, 2, 8, 0.88);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
     z-index: 1000;
     display: none;
     align-items: center;
@@ -940,8 +930,6 @@ PURPOSE : Panel file manager terenkripsi dengan vault tree view
 
 .fmSideTreePanel {
     background: var(--bg-surface);
-    backdrop-filter: var(--blur-md);
-    -webkit-backdrop-filter: var(--blur-md);
     border: 1px solid var(--border-glow);
     border-radius: var(--radius-lg);
     padding: 16px;
@@ -982,8 +970,6 @@ PURPOSE : Panel file manager terenkripsi dengan vault tree view
 
 .fmMainExplorer {
     background: var(--bg-surface);
-    backdrop-filter: var(--blur-md);
-    -webkit-backdrop-filter: var(--blur-md);
     border: 1px solid var(--border-glow);
     border-radius: var(--radius-lg);
     display: flex;
@@ -1043,8 +1029,6 @@ PURPOSE : Terminal stream log audit real-time di bawah dashboard
 ================================================== */
 .auditStreamCard {
     background: var(--bg-surface);
-    backdrop-filter: var(--blur-md);
-    -webkit-backdrop-filter: var(--blur-md);
     border: 1px solid var(--border-glow);
     border-radius: var(--radius-lg);
     margin-top: 16px;
@@ -1275,7 +1259,6 @@ PURPOSE : Notifikasi popup floating dari kanan bawah
 }
 .toastNotificationNode {
     background: var(--bg-surface);
-    backdrop-filter: var(--blur-lg);
     border: 1px solid var(--border-glow);
     border-left: 3px solid var(--accent);
     padding: 10px 16px;
@@ -1306,8 +1289,6 @@ PURPOSE : Bottom nav bar untuk layar mobile
     display: none;
     height: 58px;
     background: var(--bg-surface);
-    backdrop-filter: var(--blur-lg);
-    -webkit-backdrop-filter: var(--blur-lg);
     border-top: 1px solid var(--border-glow);
     justify-content: space-around;
     align-items: center;
