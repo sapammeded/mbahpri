@@ -700,14 +700,26 @@ PURPOSE : Halaman selamat datang premium dengan efek visual berlapis
 [data-theme="light"] .logoRingInner { display: none; }
 
 .mainLogoImage {
-    width: 180px; height: 180px;
-    object-fit: contain;
+    width: 180px;
+    height: 180px;
+
+    object-fit: cover;
+    object-position: center center;
+
     border-radius: 20px;
     border: 1px solid var(--border-mid);
+
     background: rgba(1, 3, 10, 0.9);
-    padding: 14px;
+
+    padding: 0;
+
     filter: drop-shadow(0 0 24px rgba(0, 220, 255, 0.3));
-    transition: all 0.4s var(--ease-spring);
+
+    transition:
+        object-fit .3s ease,
+        transform .3s ease,
+        filter .3s ease;
+
     display: block;
     position: relative;
     z-index: 2;
@@ -2562,5 +2574,38 @@ FEATURE END : LOGIN SYSTEM — GOOGLE SHEETS AUTH
 ================================================== */
 
 </script>
+
+function applySmartLogoFit(img){
+
+    if(!img) return;
+
+    const ratio = img.naturalWidth / img.naturalHeight;
+
+    img.style.objectPosition = "center center";
+
+    if(ratio > 2.5){
+        img.style.objectFit = "contain";
+    }
+    else if(ratio < 0.5){
+        img.style.objectFit = "contain";
+    }
+    else{
+        img.style.objectFit = "cover";
+    }
+}
+
+const logo = document.getElementById("platformGiantLogoNode");
+
+if(logo){
+
+    logo.addEventListener("load", () => {
+        applySmartLogoFit(logo);
+    });
+
+    if(logo.complete){
+        applySmartLogoFit(logo);
+    }
+}
+
 </body>
 </html>
